@@ -1,0 +1,2 @@
+rootProject.name = 'axelor-gst-app'
+include "modules:axelor-gst"

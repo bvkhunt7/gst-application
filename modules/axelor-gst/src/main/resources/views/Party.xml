@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
+
+	<grid name="party-grid" title="Party"
+		model="com.axelor.gst.db.Party">
+		<field name="name" />
+		<field name="type" />
+		<field name="customer" />
+		<field name="supplier" />
+		<field name="gstin" />
+		<field name="contact.name" />
+		<field name="contact.type" />
+		<field name="contact.primaryemail" />
+		<field name="contact.secondaryemail" />
+		<field name="contact.primaryphone" />
+		<field name="contact.secondaryphone" />
+		<field name="address.type" />
+		<field name="address.line1" />
+		<field name="address.line2" />
+		<field name="address.city" />
+		<field name="address.state" />
+		<field name="address.country" />
+		<field name="address.pincode" />
+	</grid>
+
+	<form name="party-form" title="Party"
+		model="com.axelor.gst.db.Party">
+		<panel colSpan="4">
+			<field name="name" />
+			<field name="type" />
+			<field name="customer" />
+			<field name="supplier" />
+			<field name="gstin" />
+			<field name="contact">
+				<editor>
+					<field name="contact.name" />
+					<field name="contact.type" selection="contact.type.selection"/>
+					<field name="contact.primaryemail" />
+					<field name="contact.secondaryemail" />
+					<field name="contact.primaryphone" />
+					<field name="contact.secondaryphone" />
+				</editor>
+			</field>
+
+
+		</panel>
+		<panel-related field="address">
+		<field name="address.type" selection="address.type.selection"/>
+          <field name="address.line1" />
+          <field name="address.line2" />
+          <field name="address.city" />
+          <field name="address.state" />
+          <field name="address.country" />
+          <field name="address.pincode" />
+    
+		</panel-related>
+
+	</form>
+
+</object-views>
+   
