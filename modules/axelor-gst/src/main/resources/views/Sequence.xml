@@ -1,31 +1,28 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<object-views xmlns="http://axelor.com/xml/ns/object-views"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+<object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://axelor.com/xml/ns/object-views
   http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
 
-  <grid name="sequence-grid" title="Sequence"
-    model="com.axelor.gst.db.Sequence">
-    <field name="prefix" />
-    <field name="suffix" />
-    <field name="padding" />
-    <field name="nextnumber" />
-    <field name="model" />
-   
+		<grid name="sequence-grid" title="Sequence" model="com.axelor.gst.db.Sequence">
+				<field name="prefix" />
+				<field name="suffix" />
+				<field name="padding" />
+				<field name="nextnumber" />
+				<field name="model" />
 
-   </grid>
-   
-   <form name="sequence-form" title="Sequence"
-    model="com.axelor.gst.db.Sequence">
-   <panel colSpan="4">
-   <field name="prefix" />
-    <field name="suffix" />
-    <field name="padding" />
-    <field name="nextnumber" />
-    <field name="model" />
-    </panel>
-  
-    </form>
-    
-    </object-views>
+
+		</grid>
+
+		<form name="sequence-form" title="Sequence" model="com.axelor.gst.db.Sequence">
+				<panel colSpan="4">
+						<field name="prefix" />
+						<field name="suffix" />
+						<field name="padding" />
+						<field name="nextnumber" />
+						<field name="model" />
+				</panel>
+
+		</form>
+
+</object-views>
    

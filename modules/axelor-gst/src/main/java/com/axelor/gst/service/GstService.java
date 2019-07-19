@@ -8,5 +8,8 @@ import com.axelor.gst.db.InvoiceLine;
 public interface GstService {
  
 	public BigDecimal net_amount(BigDecimal price, int qty);
-	public BigDecimal igst_value(Invoice invoice);
+	public InvoiceLine invoiceLineData(Invoice invoice,InvoiceLine invoiceLine);
+	public Invoice partSelectData(Invoice invoice); 
+	public Invoice computeInvoice(Invoice invoice);
+	public Invoice partyChangeInvoiceLine(Invoice invoice);
 }

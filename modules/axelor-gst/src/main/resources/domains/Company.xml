@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<domain-models
-  xmlns="http://axelor.com/xml/ns/domain-models"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://axelor.com/xml/ns/domain-models
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://axelor.com/xml/ns/domain-models
   http://axelor.com/xml/ns/domain-models/domain-models_5.0.xsd">
 
-  <module name="company" package="com.axelor.gst.db" />
+		<module name="company" package="com.axelor.gst.db" />
 
-  <entity name="Company" cachable="true">
-    <one-to-many name="contact" ref="Contact" mappedBy="company" />
-    <one-to-many name="bankdetails" ref="BankAccount" mappedBy="company" />
-    <many-to-one name="address" ref="Address" />
-    <string name="name" namecolumn="true" title="Name"  />
-    <many-to-one name="image" ref="com.axelor.meta.db.MetaFile"
-      title="Logo" />
-    <string name="gstin"  title="GSTIN"  />
-  
-   
-  </entity>
+		<entity name="Company" cachable="true">
+				<one-to-many name="contact" ref="Contact" mappedBy="company" />
+				<one-to-many name="bankdetails" ref="BankAccount" mappedBy="company" />
+				<many-to-one name="address" ref="Address" />
+				<string name="name" namecolumn="true" title="Name" />
+				<many-to-one name="image" ref="com.axelor.meta.db.MetaFile" title="Logo" />
+				<string name="gstin" title="GSTIN" />
+
+
+		</entity>
 
 </domain-models>

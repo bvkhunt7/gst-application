@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<domain-models
-  xmlns="http://axelor.com/xml/ns/domain-models"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://axelor.com/xml/ns/domain-models
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://axelor.com/xml/ns/domain-models
   http://axelor.com/xml/ns/domain-models/domain-models_5.0.xsd">
 
-  <module name="party" package="com.axelor.gst.db" />
+		<module name="party" package="com.axelor.gst.db" />
 
-  <entity name="Party" cachable="true">
-    <one-to-many name="contact" ref="Contact" mappedBy="party" />
-    <one-to-many name="address" ref="Address" mappedBy="party"/>
-    <string name="name" namecolumn="true" title="Name"  />
-    <string name="type" selection="party.type.selection" title="Type"/>
-    <boolean name="customer" title="Customer"/>
-    <boolean name="supplier" title="Supplier"/>
-    <string name="gstin"  title="GSTIN"  />
+		<entity name="Party" cachable="true">
+				<one-to-many name="contact" ref="Contact" mappedBy="party" />
+				<one-to-many name="address" ref="Address" mappedBy="party" />
+				<string name="name" namecolumn="true" title="Name" />
+				<string name="type" selection="party.type.selection" title="Type" />
+				<boolean name="customer" title="Customer" />
+				<boolean name="supplier" title="Supplier" />
+				<string name="gstin" title="GSTIN" />
 
-    </entity>
-    </domain-models>
+		</entity>
+</domain-models>
     
     

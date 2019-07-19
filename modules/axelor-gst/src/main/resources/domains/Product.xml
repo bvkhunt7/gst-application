@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<domain-models
-  xmlns="http://axelor.com/xml/ns/domain-models"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://axelor.com/xml/ns/domain-models
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://axelor.com/xml/ns/domain-models
   http://axelor.com/xml/ns/domain-models/domain-models_5.0.xsd">
 
-  <module name="product" package="com.axelor.gst.db" />
+		<module name="product" package="com.axelor.gst.db" />
 
-  <entity name="Product" cachable="true">
-  <many-to-one name="category" ref="ProductCategory" />
-    <string name="name"  title="Name" />
-    <string name="code" title="Code"/>
-    <string name="hsbn" title="HSBN"/>
-    <decimal name="saleprice" title="Sale Price" />
-    <decimal name="costprice" title="Cost Price" />
-    <binary name="image" title="Image"  />
-     <decimal name="gstrate" title="GST rate" />
-     
-      </entity>
+		<entity name="Product" cachable="true">
+				<many-to-one name="category" ref="ProductCategory" />
+				<string name="name" title="Name" />
+				<string name="code" title="Code" />
+				<string name="hsbn" title="HSBN" />
+				<decimal name="saleprice" title="Sale Price" />
+				<decimal name="costprice" title="Cost Price" />
+				<binary name="image" title="Image" />
+				<decimal name="gstrate" title="GST rate" />
+
+		</entity>
 
 </domain-models>
     

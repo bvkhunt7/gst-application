@@ -1,27 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<domain-models
-	xmlns="http://axelor.com/xml/ns/domain-models"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://axelor.com/xml/ns/domain-models
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://axelor.com/xml/ns/domain-models
   http://axelor.com/xml/ns/domain-models/domain-models_5.0.xsd">
 
-	<module name="invoiceline" package="com.axelor.gst.db" />
+		<module name="invoiceline" package="com.axelor.gst.db" />
 
-	<entity name="InvoiceLine" cachable="true">
-		<many-to-one name="product" ref="Product" />
-		<string name="hsbn" title="HSBN" />
-		<string name="item" title="Item" />
-		<integer name="qty" title="Qty" />
-		<decimal name="price" title="Price" default="1" />
-		<decimal name="netamount" title="Net Amount" />
-		<decimal name="gstrate" title="GST rate" />
-		<decimal name="igst" title="IGST" />
-		<decimal name="sgst" title="SGST" />
-		<decimal name="csgt" title="CSGT" />
-		<decimal name="grossamount" title="Gross Amount" />
-		<many-to-one name="invoice" ref="Invoice" />
+		<entity name="InvoiceLine" cachable="true">
+				<many-to-one name="product" ref="Product" />
+				<string name="hsbn" title="HSBN" />
+				<string name="item" title="Item" />
+				<integer name="qty" title="Qty" default="1"/>
+				<decimal name="price" title="Price"  />
+				<decimal name="netamount" title="Net Amount" />
+				<decimal name="gstrate" title="GST rate" />
+				<decimal name="igst" title="IGST" />
+				<decimal name="sgst" title="SGST" />
+				<decimal name="csgt" title="CSGT" />
+				<decimal name="grossamount" title="Gross Amount" />
+				<many-to-one name="invoice" ref="Invoice" />
 
 
-	</entity>
+		</entity>
 
 </domain-models>

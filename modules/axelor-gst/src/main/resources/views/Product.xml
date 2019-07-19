@@ -1,39 +1,58 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<object-views xmlns="http://axelor.com/xml/ns/object-views"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+<object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://axelor.com/xml/ns/object-views
   http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
 
-	<grid name="product-grid" title="Product"
-		model="com.axelor.gst.db.Product">
-		<field name="image" widget="image" />
-		<field name="category" />
-		<field name="name" />
-		<field name="code" />
-		<field name="hsbn" />
-		<field name="saleprice" />
-		<field name="costprice" />
-		<field name="gstrate" />
+		<grid name="product-grid" title="Product" model="com.axelor.gst.db.Product">
+				<field name="image" widget="image" />
+				<field name="category" />
+				<field name="name" />
+				<field name="code" />
+				<field name="hsbn" />
+				<field name="saleprice" />
+				<field name="costprice" />
+				<field name="gstrate" />
 
-	</grid>
+		</grid>
 
-	<form name="product-form" title="Product"
-		model="com.axelor.gst.db.Product">
-		<panel colSpan="4">
-			<field name="image" widget="image" />
-			<field name="category" onChange="default-order-record" form-view="productcategory-form" canNew="true" />
-			<field name="name" />
-			<field name="code" />
-			<field name="hsbn" />
-			<field name="saleprice" />
-			<field name="costprice" />			
-			<field name="gstrate" />
+		<form name="product-form" title="Product" model="com.axelor.gst.db.Product">
+				<panel colSpan="4">
+						<field name="image" widget="image" />
+						<field name="category" onChange="default-order-record" form-view="productcategory-form" canNew="true" />
+						<field name="name" />
+						<field name="code" />
+						<field name="hsbn" />
+						<field name="saleprice" />
+						<field name="costprice" />
+						<field name="gstrate" />
+				</panel>
 
-		</panel>
+		</form>
 
-	</form>
-<action-record name="default-order-record"
-    model="com.axelor.gst.db.Product">
-    <field name="gstrate" expr="eval:category?.gstrate" />
-  </action-record>
+		<cards name="product-cards" title="Party" model="com.axelor.gst.db.Party" orderBy="name">
+				<field name="name" />
+				<field name="code" />
+				<field name="hsbn" />
+				<field name="saleprice" />
+				<field name="costprice" />
+				<field name="gstrate" />
+				<field name="image" widget="image" />
+				<template><![CDATA[ 
+		      <div class="span4 card-image">
+		         <img ng-src="{{$image(null, 'image')}}">
+		       <strong>name: {{name}}</strong>
+		       <strong>code: {{code}}</strong>
+		       <strong>hsbn: {{hsbn}}</strong>
+		       <strong>sale price: {{saleprice}}</strong>
+		       <strong>cost price: {{costprice}}</strong>
+		       <strong>gst rate: {{gstrate}}</strong>
+		      </div> 
+      
+    ]]></template>
+		</cards>
+
+		<action-record name="default-order-record" model="com.axelor.gst.db.Product">
+				<field name="gstrate" expr="eval:category?.gstrate" />
+		</action-record>
+		
 </object-views>

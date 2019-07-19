@@ -1,37 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<domain-models
-	xmlns="http://axelor.com/xml/ns/domain-models"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://axelor.com/xml/ns/domain-models
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://axelor.com/xml/ns/domain-models
   http://axelor.com/xml/ns/domain-models/domain-models_5.0.xsd">
 
-	<module name="invoice" package="com.axelor.gst.db" />
+		<module name="invoice" package="com.axelor.gst.db" />
 
-	<entity name="Invoice" cachable="true">
+		<entity name="Invoice" cachable="true">
 
-		<many-to-one name="company" ref="Company" />
-		<string name="status" selection="status.type.selection"
-			title="Status" />
-		<string name="reference" title="Reference" />
-		<datetime name="dates" title="Datetime" />
-		<integer name="priority" title="Priority" />
-		<many-to-one name="party" ref="Party" />
-		<many-to-one name="contact" ref="Contact"
-			title="Party contact" />
-		<many-to-one name="invoiceaddress" ref="Address"
-			title="Invoice address" />
-		<many-to-one name="shippingaddress" ref="Address"
-			title="Shipping address" />
-		<boolean name="useinvoiceaddress"
-			title="Use invoice address as shipping" default="true" />
-		<decimal name="netamount" title="Net Amount" />
-		<decimal name="netigst" title="Net IGST" />
-		<decimal name="netcsgt" title="Net CSGT" />
-		<decimal name="netsgst" title="Net SGST" />
-		<decimal name="grossamount" title="Gross Amount" />
-		<one-to-many name="invoiceitems" ref="InvoiceLine"
-			mappedBy="invoice" />
+				<many-to-one name="company" ref="Company" />
+				<string name="status" selection="status.type.selection" title="Status" />
+				<string name="reference" title="Reference" />
+				<datetime name="dates" title="Datetime" />
+				<integer name="priority" title="Priority" />
+				
+				<many-to-one name="party" ref="Party" />
+				<many-to-one name="contact" ref="Contact" title="Party contact" />
+				<many-to-one name="invoiceaddress" ref="Address" title="Invoice address" />
+				<many-to-one name="shippingaddress" ref="Address" title="Shipping address" />
+				
+				<boolean name="useinvoiceaddress" title="Use invoice address as shipping" default="true" />
+				<decimal name="netamount" title="Net Amount" />
+				<decimal name="netigst" title="Net IGST" />
+				<decimal name="netcsgt" title="Net CSGT" />
+				<decimal name="netsgst" title="Net SGST" />
+				<decimal name="grossamount" title="Gross Amount" />
+				<one-to-many name="invoiceitems" ref="InvoiceLine" mappedBy="invoice" />
 
-	</entity>
+		</entity>
 
 </domain-models>

@@ -1,73 +1,112 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<object-views xmlns="http://axelor.com/xml/ns/object-views"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+<object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://axelor.com/xml/ns/object-views
   http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
 
-  <grid name="invoice-grid" title="Invoice"
-    model="com.axelor.gst.db.Invoice">
-    <field name="status" />
-    <field name="company" />
-    <field name="reference" />
-    <field name="dates" />
-    <field name="priority" />
-    <field name="party" />
-    <field name="contact" />
-    <field name="party" />
-    <field name="invoiceaddress" />
-    <field name="shippingaddress" />
-    <field name="useinvoiceaddress" />
-    <field name="netamount" />
-    <field name="netigst" />
-    <field name="netcgst" />
-    <field name="netsgst" />
-    <field name="grossamount" />
-    <field name="invoiceitems" />
+		<grid name="invoice-grid" title="Invoice" model="com.axelor.gst.db.Invoice">
 
-   </grid>
-   
-   <form name="invoice-form" title="Invoice"
-    model="com.axelor.gst.db.Invoice"  onSave="invoice-default-value" onNew="default-date-time" >
-   <panel colSpan="4">
-  <field name="status" widget="NavSelect" />
-    <field name="company" form-view="company-form" canNew="true"  />
-    <field name="reference" />
-    <field name="dates" />
-    <field name="priority" />
-    <field name="party" form-view="party-form" canNew="true" onChange="invoice-party-primary-contact"/>
-    <field name="contact" form-view="contact-form" canNew="true" />
-    <field name="invoiceaddress" form-view="address-form" canNew="true" />
-    <field name="shippingaddress" form-view="address-form" canNew="true"  />
-    <field name="useinvoiceaddress"  />
-    <field name="netamount" />
-    <field name="netigst" />
-    <field name="netcgst" />
-    <field name="netsgst" />
-    <field name="grossamount" />
-    <field name="invoiceitems" />
+				<toolbar>
+						<button name="btnPrint" icon="fa-print" title="Print" onClick="action-validate-invoice" />
+				</toolbar>
 
-    </panel>
-    
-    </form>
-    
-   <!--  <action-record name="default-shipping-address-record"
-    model="com.axelor.gst.db.Invoice">
-    <field name="shippingaddress" expr="eval:invoiceaddress" if="useinvoiceaddress" />
-    <field name="shippingaddress" expr="eval:" if="!useinvoiceaddress" />
-  </action-record>  -->
-  
-  <action-record name="default-date-time"
-    model="com.axelor.gst.db.Invoice">
-    <field name="dates" expr="eval:__date__"  />
-  </action-record>
-  <action-method name="invoice-default-value">
-    <call class="com.axelor.gst.web.GstController"
-      method="setInvoice" />
-  </action-method> 
-    
-     <action-method name="invoice-party-primary-contact">
-    <call class="com.axelor.gst.web.GstController"
-      method="getInvoice" />
-  </action-method> 
-    
-    </object-views>
+				<field name="status" />
+				<field name="company" />
+				<field name="reference" />
+				<field name="dates" />
+				<field name="priority" />
+				<field name="party" />
+				<field name="contact" />
+				<field name="party" />
+				<field name="invoiceaddress" />
+				<field name="shippingaddress" />
+				<field name="useinvoiceaddress" />
+				<field name="netamount" />
+				<field name="netigst" />
+				<field name="netcsgt" />
+				<field name="netsgst" />
+				<field name="grossamount" />
+				<field name="invoiceitems" />
+
+		</grid>
+
+		<form name="invoice-form" title="Invoice" model="com.axelor.gst.db.Invoice" onSave="invoice-default-value" onNew="default-date-time">
+
+				<toolbar>
+						<button name="btnPrint" icon="fa-print" title="Print" onClick="action-validate-invoice" />
+				</toolbar>
+
+				<panel>
+						<field name="status" widget="NavSelect" colSpan="12"/>
+						<field name="company" form-view="company-form" canNew="true" />
+						<field name="reference" />
+						<field name="dates" />
+						<field name="priority" />
+						<field name="party" form-view="party-form" canNew="true" onChange="action-validate-invoice-data" />
+						<field name="contact" form-view="contact-form" canNew="true" />
+						<field name="invoiceaddress" form-view="address-form" canNew="true" />
+						<field name="shippingaddress" form-view="address-form" canNew="true" />
+						<field name="useinvoiceaddress" onChange="invoice-party-primary-contact" />
+						
+						<field name="invoiceitems" colSpan="12"/>
+						
+						<field name="netamount" />
+						<field name="netigst" />
+						<field name="netcsgt" />
+						<field name="netsgst" />
+						<field name="grossamount" />
+						
+
+				</panel>
+
+		</form>
+
+		<kanban name="invoice-kanban" title="Invoice" model="com.axelor.gst.db.Invoice" columnBy="status" sequenceBy="priority" draggable="false" limit="10">
+				<field name="company" />
+				<field name="dates" />
+				<field name="party" />
+				<field name="contact" />
+				<field name="netigst" />
+				<field name="netcsgt" />
+				<field name="netsgst" />
+				<field name="grossamount" />
+
+				<template><![CDATA[
+      <div class="card-body">Company:{{company}}</div>
+      <div class="card-body">Date: {{dates}}</div>
+      <div class="card-body">Party: {{party}}</div>
+      <div class="card-body">Contact: {{contact}}</div>
+      <div class="card-body">NetIgst:  {{netigst}}</div>
+      <div class="card-body">NetCgst: {{netcsgtt}}</div>
+      <div class="card-body">NetSgst: {{netsgst}}</div>
+      <div class="card-body">GrossAmount: {{grossamount}}</div>
+      
+     ]]></template>
+		</kanban>
+
+
+
+		<!-- <action-record name="default-shipping-address-record" model="com.axelor.gst.db.Invoice"> <field name="shippingaddress" expr="eval:invoiceaddress" if="useinvoiceaddress" 
+				/> <field name="shippingaddress" expr="eval:" if="!useinvoiceaddress" /> </action-record> -->
+
+		<action-record name="default-date-time" model="com.axelor.gst.db.Invoice">
+				<field name="dates" expr="eval:__date__" />
+		</action-record>
+		<action-method name="invoice-default-value">
+				<call class="com.axelor.gst.web.GstController" method="setInvoice" />
+		</action-method>
+
+		<action-method name="invoice-party-primary-contact">
+				<call class="com.axelor.gst.web.GstController" method="getInvoice" />
+		</action-method>
+
+
+		<action-method name="invoice-party-change-invoiceline-data">
+				<call class="com.axelor.gst.web.GstController" method="setPartyInvoiceInvoiceLine" if="invoiceitems" />
+		</action-method>
+		
+		<action-group name="action-validate-invoice-data">
+				<action name="invoice-party-primary-contact" />
+				<action name="invoice-party-change-invoiceline-data" />
+		</action-group>
+
+</object-views>
