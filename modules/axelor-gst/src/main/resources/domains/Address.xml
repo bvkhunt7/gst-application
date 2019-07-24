@@ -12,7 +12,13 @@
 				<many-to-one name="party" ref="Party" />
 				<!-- <one-to-many name="company" ref="Company" mappedBy="address" /> -->
 				<string name="type" selection="address.type.selection" title="Type" />
-				<string name="line1" title="Line1" />
+				<string name="line1" title="Line1" namecolumn="true" search="state" >
+<!-- 				<![CDATA[   -->
+<!--  				 if(line1 == null) -->
+<!--  				 return null; -->
+<!--  				return line1+ " " + state.getName();  -->
+<!--  				]]>  -->
+				</string>
 				<string name="line2" title="Line2" />
 				<string name="pincode" title="PinCode" />
 

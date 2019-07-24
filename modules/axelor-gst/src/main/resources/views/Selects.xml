@@ -28,10 +28,10 @@
 	</selection>
 
 	<selection name="status.type.selection">
-		<option value="Draft">Draft</option>
-		<option value="Validated">Validated</option>
-		<option value="Paid">Paid</option>
-		<option value="Cancelled">Cancelled</option>
+		<option value="0">Draft</option>
+		<option value="1">Validated</option>
+		<option value="2">Paid</option>
+		<option value="3">Cancelled</option>
 	</selection>
 
 </object-views>

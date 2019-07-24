@@ -190,6 +190,18 @@
                     <text-property name="heading">invoiceaddress</text-property>
                 </structure>
             </list-property>
+            <list-property name="parameters">
+                <structure>
+                    <property name="name">id</property>
+                    <property name="paramName">id</property>
+                    <property name="nativeName"></property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                    <property name="position">1</property>
+                    <property name="isInput">true</property>
+                    <property name="isOutput">false</property>
+                </structure>
+            </list-property>
             <structure name="cachedMetaData">
                 <list-property name="resultSet">
                     <structure>
@@ -485,7 +497,8 @@
                     <property name="nativeDataType">-5</property>
                 </structure>
             </list-property>
-            <xml-property name="queryText"><![CDATA[select * from  gst_invoice; 
+            <xml-property name="queryText"><![CDATA[select * from  gst_invoice
+where id=any(string_to_array(?,',')::int[]);
 ]]></xml-property>
             <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
@@ -1173,38 +1186,14 @@
             <column id="86"/>
             <header>
                 <row id="7">
-                    <cell id="8">
-                        <label id="87">
-                            <text-property name="text">dates</text-property>
-                        </label>
-                    </cell>
+                    <cell id="8"/>
                     <cell id="9"/>
                     <cell id="10"/>
-                    <cell id="11">
-                        <label id="117">
-                            <text-property name="text">netamount</text-property>
-                        </label>
-                    </cell>
-                    <cell id="12">
-                        <label id="90">
-                            <text-property name="text">party</text-property>
-                        </label>
-                    </cell>
-                    <cell id="13">
-                        <label id="122">
-                            <text-property name="text">netsgst</text-property>
-                        </label>
-                    </cell>
-                    <cell id="14">
-                        <label id="119">
-                            <text-property name="text">netcsgt</text-property>
-                        </label>
-                    </cell>
-                    <cell id="15">
-                        <label id="124">
-                            <text-property name="text">grossamount</text-property>
-                        </label>
-                    </cell>
+                    <cell id="11"/>
+                    <cell id="12"/>
+                    <cell id="13"/>
+                    <cell id="14"/>
+                    <cell id="15"/>
                 </row>
             </header>
             <detail>
@@ -1219,41 +1208,37 @@
                     <cell id="24"/>
                 </row>
                 <row id="25">
-                    <cell id="26">
-                        <label id="89">
-                            <property name="fontWeight">bold</property>
-                            <text-property name="text">Date:</text-property>
-                        </label>
-                    </cell>
-                    <cell id="27">
-                        <data id="88">
-                            <property name="resultSetColumn">dates</property>
-                        </data>
-                    </cell>
+                    <cell id="26"/>
+                    <cell id="27"/>
                     <cell id="28"/>
-                    <cell id="29">
-                        <label id="92">
-                            <property name="fontWeight">bold</property>
-                            <text-property name="text">Party.</text-property>
-                        </label>
-                    </cell>
-                    <cell id="30">
-                        <data id="91">
-                            <property name="resultSetColumn">party</property>
-                        </data>
-                    </cell>
+                    <cell id="29"/>
+                    <cell id="30"/>
                     <cell id="31"/>
                     <cell id="32"/>
                     <cell id="33"/>
                 </row>
                 <row id="34">
-                    <cell id="35"/>
-                    <cell id="36"/>
+                    <cell id="35">
+                        <label id="89">
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">Date:</text-property>
+                        </label>
+                    </cell>
+                    <cell id="36">
+                        <data id="88">
+                            <property name="resultSetColumn">dates</property>
+                        </data>
+                    </cell>
                     <cell id="37"/>
-                    <cell id="38"/>
+                    <cell id="38">
+                        <label id="92">
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">Party.</text-property>
+                        </label>
+                    </cell>
                     <cell id="39">
-                        <data id="93">
-                            <property name="resultSetColumn">invoiceaddress</property>
+                        <data id="91">
+                            <property name="resultSetColumn">party</property>
                         </data>
                     </cell>
                     <cell id="40"/>
@@ -1262,89 +1247,95 @@
                 </row>
                 <row id="43">
                     <cell id="44">
-                        <property name="colSpan">3</property>
+                        <property name="colSpan">1</property>
                         <property name="rowSpan">1</property>
                     </cell>
-                    <cell id="47">
+                    <cell id="127"/>
+                    <cell id="128"/>
+                    <cell id="47"/>
+                    <cell id="48">
+                        <data id="93">
+                            <property name="resultSetColumn">invoiceaddress</property>
+                        </data>
+                    </cell>
+                    <cell id="49"/>
+                    <cell id="50"/>
+                    <cell id="51"/>
+                </row>
+                <row id="52">
+                    <cell id="53"/>
+                    <cell id="54"/>
+                    <cell id="55"/>
+                    <cell id="56"/>
+                    <cell id="57"/>
+                    <cell id="58"/>
+                    <cell id="59"/>
+                    <cell id="60"/>
+                </row>
+                <row id="61">
+                    <cell id="62"/>
+                    <cell id="63"/>
+                    <cell id="64"/>
+                    <cell id="65">
                         <label id="112">
                             <property name="fontWeight">bold</property>
                             <text-property name="text">Net amount</text-property>
                         </label>
                     </cell>
-                    <cell id="48">
+                    <cell id="66">
                         <label id="113">
                             <property name="fontWeight">bold</property>
                             <text-property name="text">IGST</text-property>
                         </label>
                     </cell>
-                    <cell id="49">
+                    <cell id="67">
                         <label id="114">
                             <property name="fontWeight">bold</property>
                             <text-property name="text">SGST</text-property>
                         </label>
                     </cell>
-                    <cell id="50">
+                    <cell id="68">
                         <label id="115">
                             <property name="fontWeight">bold</property>
                             <text-property name="text">CGST</text-property>
                         </label>
                     </cell>
-                    <cell id="51">
+                    <cell id="69">
                         <label id="116">
                             <property name="fontWeight">bold</property>
                             <text-property name="text">Gross amount</text-property>
                         </label>
                     </cell>
                 </row>
-                <row id="52">
-                    <cell id="53"/>
-                    <cell id="54"/>
-                    <cell id="55"/>
-                    <cell id="56">
-                        <data id="118">
-                            <property name="resultSetColumn">netamount</property>
-                        </data>
-                    </cell>
-                    <cell id="57">
-                        <data id="121">
-                            <property name="resultSetColumn">netigst</property>
-                        </data>
-                    </cell>
-                    <cell id="58">
-                        <data id="123">
-                            <property name="resultSetColumn">netsgst</property>
-                        </data>
-                    </cell>
-                    <cell id="59">
-                        <data id="120">
-                            <property name="resultSetColumn">netcsgt</property>
-                        </data>
-                    </cell>
-                    <cell id="60">
-                        <data id="125">
-                            <property name="resultSetColumn">grossamount</property>
-                        </data>
-                    </cell>
-                </row>
-                <row id="61">
-                    <cell id="62"/>
-                    <cell id="63"/>
-                    <cell id="64"/>
-                    <cell id="65"/>
-                    <cell id="66"/>
-                    <cell id="67"/>
-                    <cell id="68"/>
-                    <cell id="69"/>
-                </row>
                 <row id="103">
                     <cell id="104"/>
                     <cell id="105"/>
                     <cell id="106"/>
-                    <cell id="107"/>
-                    <cell id="108"/>
-                    <cell id="109"/>
-                    <cell id="110"/>
-                    <cell id="111"/>
+                    <cell id="107">
+                        <data id="118">
+                            <property name="resultSetColumn">netamount</property>
+                        </data>
+                    </cell>
+                    <cell id="108">
+                        <data id="121">
+                            <property name="resultSetColumn">netigst</property>
+                        </data>
+                    </cell>
+                    <cell id="109">
+                        <data id="123">
+                            <property name="resultSetColumn">netsgst</property>
+                        </data>
+                    </cell>
+                    <cell id="110">
+                        <data id="120">
+                            <property name="resultSetColumn">netcsgt</property>
+                        </data>
+                    </cell>
+                    <cell id="111">
+                        <data id="125">
+                            <property name="resultSetColumn">grossamount</property>
+                        </data>
+                    </cell>
                 </row>
                 <row id="94">
                     <cell id="95"/>

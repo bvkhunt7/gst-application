@@ -8,6 +8,7 @@
 		<entity name="Party" cachable="true">
 				<one-to-many name="contact" ref="Contact" mappedBy="party" />
 				<one-to-many name="address" ref="Address" mappedBy="party" />
+				<string name="reference" title="Reference" />
 				<string name="name" namecolumn="true" title="Name" />
 				<string name="type" selection="party.type.selection" title="Type" />
 				<boolean name="customer" title="Customer" />

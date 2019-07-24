@@ -6,6 +6,7 @@
 
 	<grid name="party-grid" title="Party"
 		model="com.axelor.gst.db.Party">
+		<field name="reference" />
 		<field name="name" />
 		<field name="type" />
 		<field name="customer" />
@@ -27,8 +28,9 @@
 	</grid>
 
 	<form name="party-form" title="Party"
-		model="com.axelor.gst.db.Party">
+		model="com.axelor.gst.db.Party" onSave="action-set-nextnumber-reference-increment">
 		<panel colSpan="4">
+			<field name="reference" readonly="true" />
 			<field name="name" />
 			<field name="type" />
 			<field name="customer" />
@@ -99,6 +101,20 @@
       </div> 
     ]]></template>
 	</cards>
+  
+  <action-method name="party-set-reference">
+    <call class="com.axelor.gst.web.GstController"
+      method="setPartyReference" />
+  </action-method>
+<!--   <action-method name="check-padding"> -->
+<!--         <call class="com.axelor.gst.web.GstController" method="generateSequence" /> -->
+<!--     </action-method>  -->
+    <action-group name="action-set-nextnumber-reference-increment">
+    <action name="party-set-reference" />
+<!--     <action name="check-padding" /> -->
+
+  </action-group>
+    
 
 
 </object-views>

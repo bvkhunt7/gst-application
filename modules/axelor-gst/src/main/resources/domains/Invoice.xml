@@ -8,7 +8,7 @@
 		<entity name="Invoice" cachable="true">
 
 				<many-to-one name="company" ref="Company" />
-				<string name="status" selection="status.type.selection" title="Status" />
+				<string name="status" selection="status.type.selection" title="Status" default="0" />
 				<string name="reference" title="Reference" />
 				<datetime name="dates" title="Datetime" />
 				<integer name="priority" title="Priority" />

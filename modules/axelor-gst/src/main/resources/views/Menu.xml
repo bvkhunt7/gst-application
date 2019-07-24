@@ -10,49 +10,27 @@
 
 		<menuitem name="menu-company" parent="menu-gst-company" title="Company" action="company.all" />
 
-		<menuitem name="menu-bank-account" parent="menu-gst-company" title="Bank-Account" action="bankaccount.all" />
-
-		<menuitem name="menu-sequence" parent="menu-gst-company" title="Sequence" action="sequence.all" />
-
-		<menuitem name="menu-party" parent="menu-gst-party" title="Party" action="party.all" />
-
-		<menuitem name="menu-contact" parent="menu-gst-party" title="Contact" action="contact.all" />
-
-		<menuitem name="menu-configurations" parent="menu-gst-party" title="Configurations" />
-
-		<menuitem name="menu-address" parent="menu-configurations" title="Address" action="address.all" />
-
-		<menuitem name="menu-city" parent="menu-configurations" title="City" action="city.all" />
-
-		<menuitem name="menu-state" parent="menu-configurations" title="State" action="state.all" />
-
-		<menuitem name="menu-country" parent="menu-configurations" title="Country" action="country.all" />
-
-		<menuitem name="menu-product" parent="menu-gst-product" title="Product" action="product.all" />
-
-		<menuitem name="menu-productcategory" parent="menu-gst-product" title="Product Category" action="productcategory.all" />
-
-		<menuitem name="menu-invoice" parent="menu-gst-invoice" title="Invoice" action="invoice.all" />
-
-		<!-- <menuitem name="menu-invoiceline" parent="menu-gst-invoice" title="Invoice Line" action="invoiceline.all" /> -->
-
-
-
-
 		<action-view name="company.all" title="Company" model="com.axelor.gst.db.Company">
 				<view type="grid" name="company-grid" />
 				<view type="form" name="company-form" />
 		</action-view>
+
+		<menuitem name="menu-bank-account" parent="menu-gst-company" title="Bank-Account" action="bankaccount.all" />
 
 		<action-view name="bankaccount.all" title="Bank Account" model="com.axelor.gst.db.BankAccount">
 				<view type="grid" name="bankaccount-grid" />
 				<view type="form" name="bankaccount-form" />
 		</action-view>
 
+
+		<menuitem name="menu-sequence" parent="menu-gst-company" title="Sequence" action="sequence.all" />
+
 		<action-view name="sequence.all" title="Sequence" model="com.axelor.gst.db.Sequence">
 				<view type="grid" name="sequence-grid" />
 				<view type="form" name="sequence-form" />
 		</action-view>
+
+		<menuitem name="menu-party" parent="menu-gst-party" title="Party" action="party.all" />
 
 		<action-view name="party.all" title="Party" model="com.axelor.gst.db.Party">
 				<view type="grid" name="party-grid" />
@@ -60,30 +38,44 @@
 				<view type="cards" name="party-cards" />
 		</action-view>
 
+		<menuitem name="menu-contact" parent="menu-gst-party" title="Contact" action="contact.all" />
+
 		<action-view name="contact.all" title="Contact" model="com.axelor.gst.db.Contact">
 				<view type="grid" name="contact-grid" />
 				<view type="form" name="contact-form" />
 		</action-view>
+
+		<menuitem name="menu-configurations" parent="menu-gst-party" title="Configurations" />
+
+		<menuitem name="menu-address" parent="menu-configurations" title="Address" action="address.all" />
 
 		<action-view name="address.all" title="Address" model="com.axelor.gst.db.Address">
 				<view type="grid" name="address-grid" />
 				<view type="form" name="address-form" />
 		</action-view>
 
+		<menuitem name="menu-city" parent="menu-configurations" title="City" action="city.all" />
+
 		<action-view name="city.all" title="City" model="com.axelor.gst.db.City">
 				<view type="grid" name="city-grid" />
 				<view type="form" name="city-form" />
 		</action-view>
+
+		<menuitem name="menu-state" parent="menu-configurations" title="State" action="state.all" />
 
 		<action-view name="state.all" title="State" model="com.axelor.gst.db.State">
 				<view type="grid" name="state-grid" />
 				<view type="form" name="state-form" />
 		</action-view>
 
+		<menuitem name="menu-country" parent="menu-configurations" title="Country" action="country.all" />
+
 		<action-view name="country.all" title="Country" model="com.axelor.gst.db.Country">
 				<view type="grid" name="country-grid" />
 				<view type="form" name="country-form" />
 		</action-view>
+
+		<menuitem name="menu-product" parent="menu-gst-product" title="Product" action="product.all" />
 
 		<action-view name="product.all" title="Product" model="com.axelor.gst.db.Product">
 				<view type="grid" name="product-grid" />
@@ -91,16 +83,63 @@
 				<view type="cards" name="product-cards" />
 		</action-view>
 
+		<menuitem name="menu-productcategory" parent="menu-gst-product" title="Product Category" action="productcategory.all" />
+
 		<action-view name="productcategory.all" title="Product Category" model="com.axelor.gst.db.ProductCategory">
 				<view type="grid" name="productcategory-grid" />
 				<view type="form" name="productcategory-form" />
 		</action-view>
+
+		<menuitem name="menu-invoice" parent="menu-gst-invoice" title="Invoice" action="invoice.all" />
 
 		<action-view name="invoice.all" title="Invoice" model="com.axelor.gst.db.Invoice">
 				<view type="grid" name="invoice-grid" />
 				<view type="form" name="invoice-form" />
 				<view type="kanban" name="invoice-kanban" />
 		</action-view>
+
+		<menuitem title="DraftInvoices" name="menu-invoice-root-draftInvoices" parent="menu-gst-invoice" action="action.draftInvoice.all" />
+		<action-view name="action.draftInvoice.all" title="DraftInvoices" model="com.axelor.gst.db.Invoice">
+				<view type="grid" name="invoice-grid" />
+				<domain>self.status='0'</domain>
+		</action-view>
+
+		<menuitem title="ValidatedInvoices" name="menu-invoice-root-validatedInvoices" parent="menu-gst-invoice" action="action.validatedInvoice.all" />
+		<action-view name="action.validatedInvoice.all" title="ValidatedInvoices" model="com.axelor.gst.db.Invoice">
+				<view type="grid" name="invoice-grid" />
+				<domain>self.status='1'</domain>
+		</action-view>
+		
+		<menuitem title="PaidInvoices" name="menu-invoice-root-paidInvoices" parent="menu-gst-invoice" action="action.paidInvoice.all" />
+    <action-view name="action.paidInvoice.all" title="PaidInvoices" model="com.axelor.gst.db.Invoice">
+        <view type="grid" name="invoice-grid" />
+        <domain>self.status='2'</domain>
+    </action-view>
+    
+    <menuitem title="CancelledInvoices" name="menu-invoice-root-cancelledInvoices" parent="menu-gst-invoice" action="action.cancelledInvoice.all" />
+    <action-view name="action.cancelledInvoice.all" title="CancelledInvoices" model="com.axelor.gst.db.Invoice">
+        <view type="grid" name="invoice-grid" />
+        <domain>self.status='3'</domain>
+    </action-view>
+
+		<!-- <menuitem name="menu-invoiceline" parent="menu-gst-invoice" title="Invoice Line" action="invoiceline.all" /> -->
+
+
+
+
+		<!-- <action-view name="company.all" title="Company" model="com.axelor.gst.db.Company"> <view type="grid" name="company-grid" /> <view type="form" name="company-form" /> </action-view> 
+				<action-view name="bankaccount.all" title="Bank Account" model="com.axelor.gst.db.BankAccount"> <view type="grid" name="bankaccount-grid" /> <view type="form" name="bankaccount-form" 
+				/> </action-view> <action-view name="sequence.all" title="Sequence" model="com.axelor.gst.db.Sequence"> <view type="grid" name="sequence-grid" /> <view type="form" name="sequence-form" 
+				/> </action-view> <action-view name="party.all" title="Party" model="com.axelor.gst.db.Party"> <view type="grid" name="party-grid" /> <view type="form" name="party-form" /> 
+				<view type="cards" name="party-cards" /> </action-view> <action-view name="contact.all" title="Contact" model="com.axelor.gst.db.Contact"> <view type="grid" name="contact-grid" 
+				/> <view type="form" name="contact-form" /> </action-view> <action-view name="address.all" title="Address" model="com.axelor.gst.db.Address"> <view type="grid" name="address-grid" 
+				/> <view type="form" name="address-form" /> </action-view> <action-view name="city.all" title="City" model="com.axelor.gst.db.City"> <view type="grid" name="city-grid" /> <view 
+				type="form" name="city-form" /> </action-view> <action-view name="state.all" title="State" model="com.axelor.gst.db.State"> <view type="grid" name="state-grid" /> <view type="form" 
+				name="state-form" /> </action-view> <action-view name="country.all" title="Country" model="com.axelor.gst.db.Country"> <view type="grid" name="country-grid" /> <view type="form" 
+				name="country-form" /> </action-view> <action-view name="product.all" title="Product" model="com.axelor.gst.db.Product"> <view type="grid" name="product-grid" /> <view type="form" 
+				name="product-form" /> <view type="cards" name="product-cards" /> </action-view> <action-view name="productcategory.all" title="Product Category" model="com.axelor.gst.db.ProductCategory"> 
+				<view type="grid" name="productcategory-grid" /> <view type="form" name="productcategory-form" /> </action-view> <action-view name="invoice.all" title="Invoice" model="com.axelor.gst.db.Invoice"> 
+				<view type="grid" name="invoice-grid" /> <view type="form" name="invoice-form" /> <view type="kanban" name="invoice-kanban" /> </action-view> -->
 
 		<!-- <action-view name="invoiceline.all" title="Invoice Line" model="com.axelor.gst.db.InvoiceLine"> <view type="grid" name="invoiceline-grid" /> <view type="form" name="invoiceline-form" 
 				/> </action-view> -->

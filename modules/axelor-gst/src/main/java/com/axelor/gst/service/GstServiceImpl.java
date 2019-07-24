@@ -4,13 +4,22 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.yaml.snakeyaml.introspector.BeanAccess;
+
 import com.axelor.gst.db.Address;
 import com.axelor.gst.db.Contact;
 import com.axelor.gst.db.Invoice;
 import com.axelor.gst.db.InvoiceLine;
+import com.axelor.gst.db.Party;
+import com.axelor.gst.db.Sequence;
 import com.axelor.gst.db.State;
 import com.axelor.gst.db.repo.CompanyRepository;
 import com.axelor.gst.db.repo.InvoiceRepository;
+import com.axelor.gst.db.repo.PartyRepository;
+import com.axelor.gst.db.repo.SequenceRepository;
+import com.axelor.inject.Beans;
+import com.axelor.meta.db.MetaModel;
+import com.axelor.meta.db.repo.MetaModelRepository;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -64,7 +73,7 @@ public class GstServiceImpl implements GstService {
 		return invoiceline;
 	}
 
-	public Invoice partSelectData(Invoice invoice) {
+	public Invoice computeInvoicePartyAttrs(Invoice invoice) {
 		final String ADDRESS_PRIMARY = "primary";
 		final String ADDRESS_INVOICE = "invoice";
 		final String ADDRESS_SHIPPING = "shipping";
@@ -157,7 +166,7 @@ public class GstServiceImpl implements GstService {
 		return invoice;
 	}
 
-	public Invoice partyChangeInvoiceLine(Invoice invoice) {
+	public Invoice computeInvoiceLineAttrs(Invoice invoice) {
 		State invoiceaddress = invoice.getInvoiceaddress().getState();
 		State companyaddress = invoice.getCompany().getAddress().getState();
 		List<InvoiceLine> list = invoice.getInvoiceitems();
@@ -215,4 +224,44 @@ public class GstServiceImpl implements GstService {
 		return invoice;
 	}
 
+	/*
+	 * public String computeInvoiceBtn(String status) { if(status.equals("0")) {
+	 * status = "1"; } else if (status.equals("1")) {
+	 * 
+	 * status = "2"; } else if (status.equals("2")) {
+	 * 
+	 * status = "3"; } else if (status.equals("3")) {
+	 * 
+	 * status = "0"; } return status;
+	 * 
+	 * }
+	 */
+	public Sequence generateSequence(Sequence sequence) {
+		String suffix = sequence.getSuffix();
+		String prefix = sequence.getPrefix();
+		int padding = sequence.getPadding();
+		MetaModel model = sequence.getModel();
+		String partyName = model.getName();
+
+		int len = padding;
+		int no = 1;
+		String str = String.format("%0" + len + "d", no);
+		String paddingStr = prefix.concat(str);
+		String string = paddingStr.concat(suffix);
+		sequence.setNextnumber(string);
+		System.out.println(string);
+		System.out.println(str);
+		System.out.println(model);
+      
+		
+		return sequence;
+	}
+
+	
+
+	/*
+	 * public Party setPartyReference(Party party) {
+	 * 
+	 * }
+	 */
 }
