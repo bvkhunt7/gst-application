@@ -1,33 +1,26 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<object-views xmlns="http://axelor.com/xml/ns/object-views"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+<object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://axelor.com/xml/ns/object-views
   http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
 
-	<grid name="bankaccount-grid" title="Bank Account"
-		model="com.axelor.gst.db.BankAccount">
-		<field name="company" />
-		<field name="bank" />
-		<field name="accountno" />
-		<field name="ifsc" />
-		<field name="type" />
-		<field name="address" />
+		<grid name="bankaccount-grid" title="Bank Account" model="com.axelor.gst.db.BankAccount">
+				<field name="company" />
+				<field name="bank" />
+				<field name="accountno" />
+				<field name="ifsc" />
+				<field name="type" />
+				<field name="address" />
+		</grid>
 
-	</grid>
-
-	<form name="bankaccount-form" title="Bank Account"
-		model="com.axelor.gst.db.BankAccount">
-		<panel colSpan="4">
-			<field name="bank" />
-			<field name="accountno" />
-			<field name="ifsc" />
-			<field name="type" />
-			<field name="address" />
-			<field name="company" />
-		</panel>
-
-
-
-	</form>
+		<form name="bankaccount-form" title="Bank Account" model="com.axelor.gst.db.BankAccount">
+				<panel colSpan="4">
+						<field name="bank" />
+						<field name="accountno" />
+						<field name="ifsc" />
+						<field name="type" />
+						<field name="address" />
+						<field name="company" />
+				</panel>
+		</form>
 
 </object-views>

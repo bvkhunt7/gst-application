@@ -9,8 +9,6 @@
 				<field name="padding" />
 				<field name="nextnumber" />
 				<field name="model" />
-
-
 		</grid>
 
 		<form name="sequence-form" title="Sequence" model="com.axelor.gst.db.Sequence" onSave="check-padding">
@@ -21,13 +19,11 @@
 						<field name="nextnumber" />
 						<field name="model" />
 				</panel>
-
 		</form>
 
-<action-method name="check-padding">
-        <call class="com.axelor.gst.web.GstController" method="generateSequence" />
-    </action-method>
-
+		<action-method name="check-padding">
+				<call class="com.axelor.gst.web.GstController" method="generateSequence" />
+		</action-method>
 
 </object-views>
    

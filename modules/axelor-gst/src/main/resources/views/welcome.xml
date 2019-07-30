@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://axelor.com/xml/ns/object-views http://axelor.com/xml/ns/object-views/object-views_5.1.xsd">
+
+		<dashboard name="welcome.dashboard" title="Welcome bar!">
+				<dashlet action="chart:chart.unpaid.invoices.per.customer" />
+				<dashlet action="chart:chart.customer.per.state" />
+				<dashlet action="chart:chart.per.amount.invoice.status" />
+				<dashlet action="chart:chart.number.of.invoices.per.status" />
+				<dashlet action="chart:chart.paid.invoice.per.product.category" />
+		</dashboard>
+
+		<action-view name="welcome" title="Welcome!">
+				<view type="dashboard" name="welcome.dashboard" />
+		</action-view>
+
+		<menuitem name="menu-dashboards" title="Dashboards" icon="fa-dashboard" icon-background="blue" />
+
+		<menuitem name="menu-welcome" parent="menu-dashboards" title="Welcome!" action="welcome" />
+
+</object-views>

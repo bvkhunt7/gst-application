@@ -4,6 +4,10 @@
   http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
 
 		<grid name="product-grid" title="Product" model="com.axelor.gst.db.Product">
+				<toolbar>
+						<button name="btnPrint" title="Invoice" onClick="action-create-product-invoiceline" />
+						<button name="btnproduct" icon="fa-print" title="Print" onClick="action-validate-product" />
+				</toolbar>
 				<field name="image" widget="image" />
 				<field name="category" />
 				<field name="name" />
@@ -16,6 +20,9 @@
 		</grid>
 
 		<form name="product-form" title="Product" model="com.axelor.gst.db.Product">
+				<toolbar>
+						<button name="btnproduct" icon="fa-print" title="Print" onClick="action-validate-product" />
+				</toolbar>
 				<panel colSpan="4">
 						<field name="image" widget="image" />
 						<field name="category" onChange="default-order-record" form-view="productcategory-form" canNew="true" />
@@ -54,5 +61,23 @@
 		<action-record name="default-order-record" model="com.axelor.gst.db.Product">
 				<field name="gstrate" expr="eval:category?.gstrate" />
 		</action-record>
-		
+
+		<action-method name="action-create-product-invoiceline">
+				<call class="com.axelor.gst.web.GstController" method="createProductInvoiceLine" />
+		</action-method>
+
+		<action-method name="multiple-grid-selection">
+				<call class="com.axelor.gst.web.GstController" method="printInvoices" />
+		</action-method>
+
+		<action-report name="action-report-product-grid" design="Product.rptdesign" output="invoice-${date}${time}" format="pdf">
+				<param name="id" expr="eval:_ids" />
+				<param name="path" expr="eval:file_path" />
+		</action-report>
+
+		<action-group name="action-validate-product">
+				<action name="multiple-grid-selection" />
+				<action name="action-report-product-grid" />
+		</action-group>
+
 </object-views>

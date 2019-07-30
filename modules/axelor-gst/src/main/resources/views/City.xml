@@ -1,26 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<object-views xmlns="http://axelor.com/xml/ns/object-views"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+<object-views xmlns="http://axelor.com/xml/ns/object-views" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://axelor.com/xml/ns/object-views
   http://axelor.com/xml/ns/object-views/object-views_5.0.xsd">
 
-	<grid name="city-grid" title="City" model="com.axelor.gst.db.City">
+		<grid name="city-grid" title="City" model="com.axelor.gst.db.City">
+				<field name="name" />
+				<field name="state" />
+				<field name="country" />
+		</grid>
 
-		<field name="name" />
-		<field name="state" />
-		<field name="country" />
-
-	</grid>
-
-	<form name="city-form" title="City" model="com.axelor.gst.db.City">
-		<panel colSpan="4">
-
-			<field name="name" />
-			<field name="state" />
-			<field name="country" />
-
-		</panel>
-
-	</form>
+		<form name="city-form" title="City" model="com.axelor.gst.db.City">
+				<panel colSpan="4">
+						<field name="name" />
+						<field name="state" />
+						<field name="country" />
+				</panel>
+		</form>
 
 </object-views>

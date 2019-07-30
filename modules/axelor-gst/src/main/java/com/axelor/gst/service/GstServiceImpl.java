@@ -34,46 +34,43 @@ public class GstServiceImpl implements GstService {
 
 	public BigDecimal net_amount(BigDecimal price, int qty) {
 		BigDecimal d = new BigDecimal(qty);
-
 		BigDecimal count = d.multiply(price);
-
 		return count;
 	}
 
 	public InvoiceLine invoiceLineData(Invoice invoice, InvoiceLine invoiceline) {
-		State invoiceaddress = invoice.getInvoiceaddress().getState();
-		State companyaddress = invoice.getCompany().getAddress().getState();
+		if (invoice.getInvoiceaddress() != null) {
+			State invoiceaddress = invoice.getInvoiceaddress().getState();
+			State companyaddress = invoice.getCompany().getAddress().getState();
 
-		if (invoiceaddress.equals(companyaddress)) {
-			System.out.println("khgvfkhftyifvyt");
-			int div = 2;
-			BigDecimal d = new BigDecimal(div);
-			BigDecimal netamount = invoiceline.getNetamount();
-			BigDecimal gstrate = invoiceline.getGstrate();
-
-			BigDecimal count = (gstrate.divide(d)).multiply(netamount);
-			System.out.println(count);
-
-			BigDecimal gross = netamount.add(count.add(count));
-			invoiceline.setCsgt(count);
-			invoiceline.setSgst(count);
-			invoiceline.setGrossamount(gross);
-		} else {
-
-			BigDecimal netamount = invoiceline.getNetamount();
-			BigDecimal gstrate = invoiceline.getGstrate();
-
-			BigDecimal count = gstrate.multiply(netamount);
-			System.out.println(count);
-
-			BigDecimal gross = netamount.add(count);
-			invoiceline.setIgst(count);
-			invoiceline.setGrossamount(gross);
+			if (invoiceaddress.equals(companyaddress)) {
+				System.out.println("khgvfkhftyifvyt");
+				int div = 2;
+				BigDecimal d = new BigDecimal(div);
+				BigDecimal netamount = invoiceline.getNetamount();
+				BigDecimal gstrate = invoiceline.getGstrate();
+				BigDecimal count = (gstrate.divide(d)).multiply(netamount);
+				System.out.println(count);
+				BigDecimal gross = netamount.add(count.add(count));
+				invoiceline.setCsgt(count);
+				invoiceline.setSgst(count);
+				invoiceline.setGrossamount(gross);
+			} else {
+				BigDecimal netamount = invoiceline.getNetamount();
+				BigDecimal gstrate = invoiceline.getGstrate();
+				BigDecimal count = gstrate.multiply(netamount);
+				System.out.println(count);
+				BigDecimal gross = netamount.add(count);
+				invoiceline.setIgst(count);
+				invoiceline.setGrossamount(gross);
+			}
 		}
 		return invoiceline;
 	}
 
 	public Invoice computeInvoicePartyAttrs(Invoice invoice) {
+		invoice.setContact(null);
+
 		final String ADDRESS_PRIMARY = "primary";
 		final String ADDRESS_INVOICE = "invoice";
 		final String ADDRESS_SHIPPING = "shipping";
@@ -83,15 +80,15 @@ public class GstServiceImpl implements GstService {
 		List<Contact> con = null;
 		List<Contact> contactList = invoice.getParty().getContact();
 		List<Address> addressList = invoice.getParty().getAddress();
-//		IF(contactList != null){
-//			
-//		}
+
 		for (Contact contact : contactList) {
 			type = contact.getType();
 			System.out.println(type);
 			if (type.toLowerCase().equals(ADDRESS_PRIMARY)) {
 				System.out.println(con);
 				invoice.setContact(contact);
+			} else {
+				invoice.setContact(null);
 			}
 		}
 
@@ -114,134 +111,111 @@ public class GstServiceImpl implements GstService {
 			invoice.setShippingaddress(invoice.getShippingaddress());
 		}
 		return invoice;
-
 	}
 
 	public Invoice computeInvoice(Invoice invoice) {
+		if (invoice.getInvoiceitems() != null) {
+			BigDecimal netamount = new BigDecimal(0);
+			BigDecimal igst = new BigDecimal(0);
+			BigDecimal csgt = new BigDecimal(0);
+			BigDecimal sgst = new BigDecimal(0);
+			BigDecimal grossamount = new BigDecimal(0);
+			BigDecimal zero = new BigDecimal(0);
 
-		BigDecimal netamount = new BigDecimal(0);
-		BigDecimal igst = new BigDecimal(0);
-		BigDecimal csgt = new BigDecimal(0);
-		BigDecimal sgst = new BigDecimal(0);
-		BigDecimal grossamount = new BigDecimal(0);
-		BigDecimal zero = new BigDecimal(0);
+			System.out.println(invoice.getInvoiceitems());
 
-		System.out.println(invoice.getInvoiceitems());
+			for (InvoiceLine item : invoice.getInvoiceitems()) {
+				System.out.println(item);
+				netamount = netamount.add(item.getNetamount());
+				igst = igst.add(item.getIgst());
+				csgt = csgt.add(item.getCsgt());
+				sgst = sgst.add(item.getSgst());
+				grossamount = grossamount.add(item.getGrossamount());
+			}
+			if (netamount == null) {
+				invoice.setNetamount(zero);
+			} else {
+				invoice.setNetamount(netamount);
+			}
 
-		for (InvoiceLine item : invoice.getInvoiceitems()) {
-			System.out.println(item);
+			if (igst == null) {
+				invoice.setNetigst(zero);
+			} else {
+				invoice.setNetigst(igst);
+			}
 
-			netamount = netamount.add(item.getNetamount());
-			igst = igst.add(item.getIgst());
-			csgt = csgt.add(item.getCsgt());
-			sgst = sgst.add(item.getSgst());
-			grossamount = grossamount.add(item.getGrossamount());
+			if (csgt == null && sgst == null) {
+				invoice.setNetcsgt(zero);
+				invoice.setNetsgst(zero);
+			} else {
+				invoice.setNetcsgt(csgt);
+				invoice.setNetsgst(sgst);
+			}
 
-		}
-		if (netamount == null) {
-			invoice.setNetamount(zero);
-		} else {
-			invoice.setNetamount(netamount);
-		}
-
-		if (igst == null) {
-			invoice.setNetigst(zero);
-		} else {
-			invoice.setNetigst(igst);
-		}
-
-		if (csgt == null && sgst == null) {
-			invoice.setNetcsgt(zero);
-			invoice.setNetsgst(zero);
-		} else {
-			invoice.setNetcsgt(csgt);
-			invoice.setNetsgst(sgst);
-		}
-
-		if (grossamount == null) {
-			invoice.setGrossamount(zero);
-		} else {
-			invoice.setGrossamount(grossamount);
+			if (grossamount == null) {
+				invoice.setGrossamount(zero);
+			} else {
+				invoice.setGrossamount(grossamount);
+			}
 		}
 		return invoice;
 	}
 
 	public Invoice computeInvoiceLineAttrs(Invoice invoice) {
-		State invoiceaddress = invoice.getInvoiceaddress().getState();
-		State companyaddress = invoice.getCompany().getAddress().getState();
-		List<InvoiceLine> list = invoice.getInvoiceitems();
-		List<InvoiceLine> list1 = new ArrayList<InvoiceLine>();
-		BigDecimal netamount = new BigDecimal(0);
-		BigDecimal gstrate = new BigDecimal(0);
-		BigDecimal zero = new BigDecimal(0);
-		if (invoiceaddress.equals(companyaddress)) {
-			System.out.println("khgvfkhftyifvyt");
-			int div = 2;
-			BigDecimal d = new BigDecimal(div);
+		if (invoice.getInvoiceaddress() != null) {
+			State invoiceaddress = invoice.getInvoiceaddress().getState();
+			State companyaddress = invoice.getCompany().getAddress().getState();
+			List<InvoiceLine> list = invoice.getInvoiceitems();
+			List<InvoiceLine> list1 = new ArrayList<InvoiceLine>();
+			BigDecimal netamount = new BigDecimal(0);
+			BigDecimal gstrate = new BigDecimal(0);
+			BigDecimal zero = new BigDecimal(0);
 
-			// BigDecimal gstrate = invoiceline.getGstrate();
+			if (invoiceaddress.equals(companyaddress)) {
+				System.out.println("khgvfkhftyifvyt");
+				int div = 2;
+				BigDecimal d = new BigDecimal(div);
 
-			for (InvoiceLine invoiceLine : list) {
+				for (InvoiceLine invoiceLine : list) {
 
-				netamount = invoiceLine.getNetamount();
-				gstrate = invoiceLine.getGstrate();
+					netamount = invoiceLine.getNetamount();
+					gstrate = invoiceLine.getGstrate();
+					BigDecimal count = (gstrate.divide(d)).multiply(netamount);
+					System.out.println(count);
+					BigDecimal gross = netamount.add(count.add(count));
+					invoiceLine.setCsgt(count);
+					invoiceLine.setSgst(count);
+					invoiceLine.setIgst(zero);
+					invoiceLine.setGrossamount(gross);
+					list1.add(invoiceLine);
+				}
+				invoice.setInvoiceitems(list1);
+			} else if (!invoiceaddress.equals(companyaddress)) {
 
-				BigDecimal count = (gstrate.divide(d)).multiply(netamount);
-				System.out.println(count);
+				for (InvoiceLine invoiceLine : list) {
 
-				BigDecimal gross = netamount.add(count.add(count));
-
-				invoiceLine.setCsgt(count);
-				invoiceLine.setSgst(count);
-				invoiceLine.setIgst(zero);
-				invoiceLine.setGrossamount(gross);
-				list1.add(invoiceLine);
+					netamount = invoiceLine.getNetamount();
+					gstrate = invoiceLine.getGstrate();
+					BigDecimal count = gstrate.multiply(netamount);
+					System.out.println(count);
+					BigDecimal gross = netamount.add(count);
+					invoiceLine.setIgst(count);
+					invoiceLine.setSgst(zero);
+					invoiceLine.setCsgt(zero);
+					invoiceLine.setGrossamount(gross);
+					list1.add(invoiceLine);
+				}
+				invoice.setInvoiceitems(list1);
 			}
-//			response.setValue("invoiceitems", list1);
-			invoice.setInvoiceitems(list1);
-
-		} else if (!invoiceaddress.equals(companyaddress)) {
-
-			for (InvoiceLine invoiceLine : list) {
-
-				netamount = invoiceLine.getNetamount();
-				gstrate = invoiceLine.getGstrate();
-
-				BigDecimal count = gstrate.multiply(netamount);
-				System.out.println(count);
-
-				BigDecimal gross = netamount.add(count);
-
-				invoiceLine.setIgst(count);
-				invoiceLine.setSgst(zero);
-				invoiceLine.setCsgt(zero);
-				invoiceLine.setGrossamount(gross);
-				list1.add(invoiceLine);
-			}
-			// response.setValue("invoiceitems", list1);
-			invoice.setInvoiceitems(list1);
 		}
 		return invoice;
 	}
 
-	/*
-	 * public String computeInvoiceBtn(String status) { if(status.equals("0")) {
-	 * status = "1"; } else if (status.equals("1")) {
-	 * 
-	 * status = "2"; } else if (status.equals("2")) {
-	 * 
-	 * status = "3"; } else if (status.equals("3")) {
-	 * 
-	 * status = "0"; } return status;
-	 * 
-	 * }
-	 */
 	public Sequence generateSequence(Sequence sequence) {
 		String suffix = sequence.getSuffix();
 		String prefix = sequence.getPrefix();
 		int padding = sequence.getPadding();
 		MetaModel model = sequence.getModel();
-		String partyName = model.getName();
 
 		int len = padding;
 		int no = 1;
@@ -252,16 +226,7 @@ public class GstServiceImpl implements GstService {
 		System.out.println(string);
 		System.out.println(str);
 		System.out.println(model);
-      
-		
+
 		return sequence;
 	}
-
-	
-
-	/*
-	 * public Party setPartyReference(Party party) {
-	 * 
-	 * }
-	 */
 }

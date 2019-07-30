@@ -6,8 +6,7 @@
 		<grid name="invoice-grid" title="Invoice" model="com.axelor.gst.db.Invoice">
 
 				<toolbar>
-						<button name="btnPrint" icon="fa-print" title="Print" />
-<!-- 						onClick="action-validate-invoice" -->
+						<button name="btnproduct" icon="fa-print" title="Print" onClick="action-validate-invoice" />
 				</toolbar>
 
 				<field name="status" />
@@ -30,10 +29,11 @@
 
 		</grid>
 
-		<form name="invoice-form" title="Invoice" model="com.axelor.gst.db.Invoice" onSave="invoice-default-value" onNew="default-date-time">
+		<form name="invoice-form" title="Invoice" model="com.axelor.gst.db.Invoice" onSave="invoice-default-value,invoice-set-reference"
+				onNew="default-date-time,action-product-select-grid-in-invoiceLine,invoice-status-readonly">
 
 				<toolbar>
-						<button name="btnPrint" icon="fa-print" title="Print"  />
+						<button name="btnproduct" icon="fa-print" title="Print" onClick="action-validate-invoice" />
 				</toolbar>
 
 				<panel>
@@ -88,11 +88,136 @@
 
 
 
-		<!-- <action-record name="default-shipping-address-record" model="com.axelor.gst.db.Invoice"> <field name="shippingaddress" expr="eval:invoiceaddress" if="useinvoiceaddress" 
-				/> <field name="shippingaddress" expr="eval:" if="!useinvoiceaddress" /> </action-record> -->
+
+		<chart name="chart.unpaid.invoices.per.customer" title="Unpaid Invoices Per Customer">
+				<!-- <search-fields> <field type="datetime" name="fromDateTime" title="From Date" /> <field type="datetime" name="toDateTime" title="To Date" /> </search-fields> -->
+				<dataset type="sql"> 
+       <![CDATA[
+							  SELECT
+							      COUNT(gst_invoice.status) AS unpaid,
+							      gst_party.name AS customer
+							  FROM
+							      gst_invoice
+							  LEFT JOIN
+							      gst_party ON gst_invoice.party = gst_party.id
+							  WHERE
+							      gst_invoice.status = '0' OR  gst_invoice.status = '1'
+							      
+							  GROUP BY
+							      gst_party.name;
+
+				  ]]>
+				  </dataset>
+				<category key="customer" type="text" />
+				<series key="unpaid" groupBy="customer" type="bar" />
+		</chart>
+
+
+		<chart name="chart.customer.per.state" title="Customer Per State ">
+				<!-- <search-fields> <field type="datetime" name="fromDateTime" title="From Date" /> <field type="datetime" name="toDateTime" title="To Date" /> </search-fields> -->
+				<dataset type="sql"> 
+       <![CDATA[
+							 SELECT
+							      gst_state.name AS state,
+							      count(gst_party.name) AS customer
+							  FROM
+							      gst_party
+							  LEFT JOIN
+							      gst_address ON gst_party.id = gst_address.party
+							LEFT JOIN
+							      gst_state ON gst_address.state = gst_state.id
+							   
+							  GROUP BY
+							     gst_party.name,
+							      gst_state.name;
+				  
+				  ]]>
+				  </dataset>
+				<category key="state" type="text" />
+				<series key="customer" groupBy="state" type="pie" />
+		</chart>
+
+		<chart name="chart.per.amount.invoice.status" title="Invoice Per Status">
+
+				<dataset type="sql"> 
+       <![CDATA[
+							 SELECT
+							       gst_invoice.status AS Status,
+							       sum(gst_invoice.grossamount) AS grossamount
+							  FROM
+							      gst_invoice
+							       
+							      
+							  GROUP BY
+							     gst_invoice.grossamount,
+							      gst_invoice.status;
+  
+			  ]]>
+			  </dataset>
+				<category key="status" type="text" />
+				<series key="grossamount" groupBy="status" type="bar" />
+		</chart>
+
+		<chart name="chart.number.of.invoices.per.status" title="Number of Invoice Per Status">
+
+				<dataset type="sql"> 
+       <![CDATA[
+								 SELECT
+								       gst_invoice.status AS status,
+								       count(gst_invoice.id) AS invoices
+								  FROM
+								      gst_invoice
+		      
+								  GROUP BY
+								      gst_invoice.status;
+  
+			  ]]>
+			  </dataset>
+				<category key="status" type="text" />
+				<series key="invoices" type="line" />
+		</chart>
+
+
+		<chart name="chart.paid.invoice.per.product.category" title="Number of Paid Invoice Per Category">
+
+				<dataset type="sql"> 
+        <![CDATA[
+					       SELECT
+					         COUNT(gst_invoice.status) AS paid,
+					         gst_product.name AS productname,
+					         gst_product_category.name AS productcategory
+					       FROM
+					         gst_invoice_line
+					       LEFT JOIN
+					         gst_product ON gst_invoice_line.product = gst_product.id
+					       LEFT JOIN
+					         gst_product_category ON gst_product.category = gst_product_category.id
+					       LEFT JOIN
+					         gst_invoice ON gst_invoice_line.invoice = gst_invoice.id
+					
+					       WHERE
+					         gst_invoice.status = '2'
+					      
+					       GROUP BY
+					         gst_invoice.status,
+					         gst_product.name,
+					         gst_product_category.name;
+			  
+			        ]]>
+			  </dataset>
+				<category key="productcategory" type="text" />
+				<series key="paid" groupBy="productname" type="bar" />
+		</chart>
+
+		<!-- <action-attrs name="action-chart-from-end-date"> -->
+		<!-- <attribute name="value" for="fromDateTime" expr="eval:__datetime__" /> -->
+		<!-- <attribute name="value" for="toDateTime" expr="eval:__datetime__" /> -->
+		<!-- </action-attrs> -->
 
 		<action-record name="default-date-time" model="com.axelor.gst.db.Invoice">
 				<field name="dates" expr="eval:__date__" />
+				<field name="company" expr="eval:__repo__(Company).all().fetchOne()" if=" __repo__(Company).all().fetch().size == 1" />
+
 		</action-record>
 		<action-method name="invoice-default-value">
 				<call class="com.axelor.gst.web.GstController" method="setInvoice" />
@@ -101,7 +226,6 @@
 		<action-method name="invoice-party-primary-contact">
 				<call class="com.axelor.gst.web.GstController" method="getInvoice" />
 		</action-method>
-
 
 		<action-method name="invoice-party-change-invoiceline-data">
 				<call class="com.axelor.gst.web.GstController" method="setPartyInvoiceInvoiceLine" if="invoiceitems" />
@@ -118,27 +242,32 @@
 				<attribute for="status" name="value" expr="eval: 1" if="status == '0'" />
 				<attribute for="status" name="value" expr="eval: 2" if="status == '1'" />
 				<attribute for="status" name="value" expr="eval: 3" if="status == '2'" />
-				<attribute for="status" name="value" expr="eval: 0" if="status == '3'" />
-
+				<attribute for="status" name="value" expr="eval:3" if="status == '3'" />
 		</action-attrs>
-		
-<!-- 		<action-method name="multiple-grid-selection"> -->
-<!--     <call class="com.axelor.gst.web.GstController" -->
-<!--       method="printInvoices" /> -->
-<!--   </action-method> -->
 
-<!--   <action-report name="action-report-invoice-grid" -->
-<!--     design="Invoice.rptdesign" output="invoice-${date}${time}" -->
-<!--     format="pdf"> -->
-<!--     <param name="id" expr="eval:_ids" /> -->
-<!--      <param name="path" expr="eval:file_path"/> --> 
-<!--   </action-report> -->
-<!--   <action-group name="action-validate-invoice"> -->
-<!--     <action name="multiple-grid-selection" /> -->
-<!--     <action name="action-report-invoice-grid" /> -->
+		<action-attrs name="invoice-status-readonly">
+				<attribute name="readonly" for="status" expr="eval:true" />
+		</action-attrs>
 
-<!--   </action-group> -->
-		
-		
+		<action-method name="action-product-select-grid-in-invoiceLine">
+				<call class="com.axelor.gst.web.GstController" method="getProductContext" />
+		</action-method>
+
+		<action-method name="multiple-grid-selection">
+				<call class="com.axelor.gst.web.GstController" method="printInvoiceReport" />
+		</action-method>
+
+		<action-report name="action-report-invoice-grid" design="Invoice.rptdesign" output="invoice-${date}${time}" format="pdf">
+				<param name="id" expr="eval:_ids" />
+		</action-report>
+
+		<action-group name="action-validate-invoice">
+				<action name="multiple-grid-selection" />
+				<action name="action-report-invoice-grid" />
+		</action-group>
+
+		<action-method name="invoice-set-reference">
+				<call class="com.axelor.gst.web.GstController" method="setInvoiceReference" />
+		</action-method>
 
 </object-views>

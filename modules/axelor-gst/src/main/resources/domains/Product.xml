@@ -12,7 +12,7 @@
 				<string name="hsbn" title="HSBN" />
 				<decimal name="saleprice" title="Sale Price" />
 				<decimal name="costprice" title="Cost Price" />
-				<binary name="image" title="Image" />
+			<many-to-one name="image" ref="com.axelor.meta.db.MetaFile" title="Image" />
 				<decimal name="gstrate" title="GST rate" />
 
 		</entity>
