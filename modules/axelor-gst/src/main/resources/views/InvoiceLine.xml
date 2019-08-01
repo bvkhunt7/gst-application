@@ -17,28 +17,42 @@
 				<field name="grossamount" />
 		</grid>
 
-		<form name="invoiceline-form" title="Invoice Line" model="com.axelor.gst.db.InvoiceLine">
+		<form name="invoiceline-form" title="Invoice Line" model="com.axelor.gst.db.InvoiceLine" >
 				<panel colSpan="4">
-						<field name="product" form-view="prduct-form" canNew="true" onChange="default-product-gst-rate" />
+						<field name="product" form-view="prduct-form" canNew="true" onChange="default-product-gst-rate,action-validate-invoiceLine" />
 						<field name="hsbn" />
-						<field name="item" />
+						<field name="item" required="true" />
 						<field name="qty" onChange="action-validate-invoiceLine" />
 						<field name="price" onChange="action-validate-invoiceLine" />
 						<field name="netamount" />
-						<field name="gstrate" onChange="action-validate-invoiceLine" />
-						<field name="igst" />
-						<field name="sgst" />
-						<field name="csgt" />
-						<field name="grossamount" />
+						<field name="gstrate" onChange="action-validate-invoiceLine" readonly="true" />
+						<field name="igst" readonly="true" />
+						<field name="sgst" readonly="true" />
+						<field name="csgt" readonly="true" />
+						<field name="grossamount" readonly="true" />
 				</panel>
 		</form>
+		
+		
+		<action-record name="default-product-gst-rate" model="com.axelor.gst.db.InvoiceLine">
+        <field name="gstrate" expr="eval:product?.gstrate" />
+         <field name="item" expr="eval:product?.name" />
+         <field name="price" expr="eval:product?.saleprice" />
+         <field name="netamount" expr="eval:0" />
+         <field name="qty" expr="eval:1" />
+        <field name="igst" expr="eval:0" />
+        <field name="sgst" expr="eval:0" />
+        <field name="csgt" expr="eval:0" />
+        <field name="grossamount" expr="eval:0" />
+    </action-record>
+		
 
 		<action-method name="invoiceline-net-amount-calculate">
-				<call class="com.axelor.gst.web.GstController" method="calculate" />
+				<call class="com.axelor.gst.web.InvoiceLineController" method="calculate" />
 		</action-method>
 
 		<action-method name="invoiceline-igst">
-				<call class="com.axelor.gst.web.GstController" method="setInvoiceline" />
+				<call class="com.axelor.gst.web.InvoiceLineController" method="setInvoiceline" />
 		</action-method>
 
 		<action-group name="action-validate-invoiceLine">

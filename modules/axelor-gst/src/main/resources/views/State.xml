@@ -10,8 +10,8 @@
 
 		<form name="state-form" title="State" model="com.axelor.gst.db.State">
 				<panel colSpan="4">
-						<field name="name" />
-						<field name="country" />
+						<field name="name" required="true" />
+						<field name="country" required="true" />
 				</panel>
 		</form>
 

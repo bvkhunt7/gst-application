@@ -26,8 +26,8 @@
 				<panel colSpan="4">
 						<field name="image" widget="image" />
 						<field name="category" onChange="default-order-record" form-view="productcategory-form" canNew="true" />
-						<field name="name" />
-						<field name="code" />
+						<field name="name" required="true" />
+						<field name="code" required="true" />
 						<field name="hsbn" />
 						<field name="saleprice" />
 						<field name="costprice" />
@@ -63,7 +63,7 @@
 		</action-record>
 
 		<action-method name="action-create-product-invoiceline">
-				<call class="com.axelor.gst.web.GstController" method="createProductInvoiceLine" />
+				<call class="com.axelor.gst.web.ProductController" method="createProductInvoiceLine" />
 		</action-method>
 
 		<action-method name="multiple-grid-selection">

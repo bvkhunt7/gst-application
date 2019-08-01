@@ -14,9 +14,9 @@
 
 		<form name="bankaccount-form" title="Bank Account" model="com.axelor.gst.db.BankAccount">
 				<panel colSpan="4">
-						<field name="bank" />
-						<field name="accountno" />
-						<field name="ifsc" />
+						<field name="bank" required="true" />
+						<field name="accountno" required="true" />
+						<field name="ifsc"  required="true" />
 						<field name="type" />
 						<field name="address" />
 						<field name="company" />

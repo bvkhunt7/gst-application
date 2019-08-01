@@ -12,16 +12,30 @@
 				<many-to-one name="party" ref="Party" />
 				<!-- <one-to-many name="company" ref="Company" mappedBy="address" /> -->
 				<string name="type" selection="address.type.selection" title="Type" />
-				<string name="line1" title="Line1" namecolumn="true" search="state" >
-				<![CDATA[   
-  				 if(line1 == null) 
-  				 return null; 
-  				return  state.getName();  
-  				]]>  
-				</string>
+				<string name="line1" title="Line1" />
+
+				<string name="fullAddress" namecolumn="true" title="Full Address" search="line1,line2,city,state,country,pincode"><![CDATA[
+		      if (line1 == null && city == null && country==null){
+		        return null;
+		        }
+		      else if(line2 != null){
+		       return line1 + ","+ line2 +","+city.getName()+","+state.getName()+","+country.getName()+"-"+pincode;
+		       }
+		       else{
+		       return line1+","+city.getName()+","+state.getName()+","+country.getName()+"-"+pincode;
+		       }
+        ]]></string>
 				<string name="line2" title="Line2" />
 				<string name="pincode" title="PinCode" />
-
+				<extra-code>
+          <![CDATA[ 
+     final String ADDRESS_PRIMARY = "primary";
+    final String ADDRESS_INVOICE = "invoice";
+    final String ADDRESS_SHIPPING = "shipping";
+    final String ADDRESS_DEFAULT = "default";
+          
+           ]]>
+        </extra-code>
 		</entity>
 
 </domain-models>

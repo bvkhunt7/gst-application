@@ -13,16 +13,16 @@
 
 		<form name="sequence-form" title="Sequence" model="com.axelor.gst.db.Sequence" onSave="check-padding">
 				<panel colSpan="4">
-						<field name="prefix" />
+						<field name="prefix" required="true" />
 						<field name="suffix" />
 						<field name="padding" />
 						<field name="nextnumber" />
-						<field name="model" />
+						<field name="model" required="true" />
 				</panel>
 		</form>
 
 		<action-method name="check-padding">
-				<call class="com.axelor.gst.web.GstController" method="generateSequence" />
+				<call class="com.axelor.gst.web.SequenceController" method="generateSequence" />
 		</action-method>
 
 </object-views>

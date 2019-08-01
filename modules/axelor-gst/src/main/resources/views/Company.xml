@@ -14,10 +14,11 @@
 
 		<form name="company-form" title="Company" model="com.axelor.gst.db.Company">
 				<panel colSpan="4">
-						<field name="name" colSpan="4" />
-						<field name="gstin" colSpan="4" />
-						<field name="image" widget="image" />
-						<field name="contact" colSpan="8">
+						
+						<field name="image" widget="image" colSpan="12" />
+						<field name="name" required="true" />
+            <field name="gstin"  />
+						<field name="contact" colSpan="12">
 								<editor>
 										<field name="contact.name" colSpan="4" />
 										<field name="contact.type" colSpan="4" selection="contact.type.selection" />
@@ -28,7 +29,7 @@
 								</editor>
 						</field>
 						<field name="address" colSpan="4" form-view="address-form" canNew="true" />
-						<field name="bankdetails" colSpan="8" />
+						<field name="bankdetails" colSpan="12" />
 				</panel>
 		</form>
 

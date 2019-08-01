@@ -11,9 +11,9 @@
 
 		<form name="city-form" title="City" model="com.axelor.gst.db.City">
 				<panel colSpan="4">
-						<field name="name" />
+						<field name="name" required="true" />
 						<field name="state" />
-						<field name="country" />
+						<field name="country" required="true" />
 				</panel>
 		</form>
 

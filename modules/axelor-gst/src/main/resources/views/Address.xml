@@ -15,13 +15,13 @@
 
 		<form name="address-form" title="Address" model="com.axelor.gst.db.Address">
 				<panel colSpan="4">
-						<field name="type" />
-						<field name="line1" />
+						<field name="type" required="true" />
+						<field name="line1" required="true" />
 						<field name="line2" />
 						<field name="pincode" />
-						<field name="city" form-view="city-form" canNew="true" />
+						<field name="city" form-view="city-form" canNew="true" required="true" />
 						<field name="state" form-view="state-form" canNew="true" />
-						<field name="country" form-view="country-form" canNew="true" />
+						<field name="country" form-view="country-form" canNew="true" required="true" />
 				</panel>
 		</form>
 

@@ -29,7 +29,7 @@
 
 		</grid>
 
-		<form name="invoice-form" title="Invoice" model="com.axelor.gst.db.Invoice" onSave="invoice-default-value,invoice-set-reference"
+		<form name="invoice-form" title="Invoice" model="com.axelor.gst.db.Invoice" onSave="invoice-set-reference"
 				onNew="default-date-time,action-product-select-grid-in-invoiceLine,invoice-status-readonly">
 
 				<toolbar>
@@ -38,28 +38,29 @@
 
 				<panel>
 						<field name="status" widget="NavSelect" colSpan="12" />
-						<field name="company" form-view="company-form" canNew="true" />
-						<field name="reference" />
+						<field name="company" canNew="true" required="true" onChange="invoice-set-values"/>
+						<field name="reference" readonly="true" />
 						<field name="dates" />
-						<field name="priority" />
-						<field name="party" form-view="party-form" canNew="true" onChange="action-validate-invoice-data" />
+						<field name="priority"  />
+						<field name="party" form-view="party-form" canNew="true" onChange="action-validate-invoice-data" required="true" />
 						<field name="contact" form-view="contact-form" canNew="true" />
-						<field name="invoiceaddress" form-view="address-form" canNew="true" />
+						<field name="invoiceaddress" form-view="address-form" canNew="true" required="true" />
 						<field name="shippingaddress" form-view="address-form" canNew="true" />
 						<field name="useinvoiceaddress" onChange="invoice-party-primary-contact" />
+           
+<!-- 						<field name="invoiceitems" colSpan="12" onChange="invoice-default-value" /> -->
 
-						<field name="invoiceitems" colSpan="12" />
-
-						<field name="netamount" />
-						<field name="netigst" />
-						<field name="netcsgt" />
-						<field name="netsgst" />
-						<field name="grossamount" />
-						<button name="Statusbtn" title="Change Status" onClick="invoice-btn-status-validation" />
+						<field name="netamount" readonly="true" />
+						<field name="netigst" readonly="true" />
+						<field name="netcsgt" readonly="true" />
+						<field name="netsgst" readonly="true" />
+						<field name="grossamount" readonly="true" />
+						<button name="Statusbtn" title="Change Status" onClick="save,invoice-btn-status-validation,save" />
 
 
 
 				</panel>
+				<panel-related field="invoiceitems" onChange="invoice-default-value">  </panel-related>
 
 		</form>
 
@@ -216,19 +217,19 @@
 
 		<action-record name="default-date-time" model="com.axelor.gst.db.Invoice">
 				<field name="dates" expr="eval:__date__" />
-				<field name="company" expr="eval:__repo__(Company).all().fetchOne()" if=" __repo__(Company).all().fetch().size == 1" />
+				<!-- <field name="company" expr="eval:__repo__(Company).all().fetchOne()" if=" __repo__(Company).all().fetch().size == 1" /> -->
 
 		</action-record>
 		<action-method name="invoice-default-value">
-				<call class="com.axelor.gst.web.GstController" method="setInvoice" />
+				<call class="com.axelor.gst.web.InvoiceController" method="setInvoice" />
 		</action-method>
 
 		<action-method name="invoice-party-primary-contact">
-				<call class="com.axelor.gst.web.GstController" method="getInvoice" />
+				<call class="com.axelor.gst.web.InvoiceController" method="getInvoice" />
 		</action-method>
 
 		<action-method name="invoice-party-change-invoiceline-data">
-				<call class="com.axelor.gst.web.GstController" method="setPartyInvoiceInvoiceLine" if="invoiceitems" />
+				<call class="com.axelor.gst.web.InvoiceController" method="setPartyInvoiceInvoiceLine" if="invoiceitems" />
 		</action-method>
 
 		<action-group name="action-validate-invoice-data">
@@ -242,7 +243,7 @@
 				<attribute for="status" name="value" expr="eval: 1" if="status == '0'" />
 				<attribute for="status" name="value" expr="eval: 2" if="status == '1'" />
 				<attribute for="status" name="value" expr="eval: 3" if="status == '2'" />
-				<attribute for="status" name="value" expr="eval:3" if="status == '3'" />
+				<attribute for="status" name="value" expr="eval:0" if="status == '3'" />
 		</action-attrs>
 
 		<action-attrs name="invoice-status-readonly">
@@ -250,11 +251,11 @@
 		</action-attrs>
 
 		<action-method name="action-product-select-grid-in-invoiceLine">
-				<call class="com.axelor.gst.web.GstController" method="getProductContext" />
+				<call class="com.axelor.gst.web.ProductController" method="getProductContext" />
 		</action-method>
 
 		<action-method name="multiple-grid-selection">
-				<call class="com.axelor.gst.web.GstController" method="printInvoiceReport" />
+				<call class="com.axelor.gst.web.GstController" method="printInvoices" />
 		</action-method>
 
 		<action-report name="action-report-invoice-grid" design="Invoice.rptdesign" output="invoice-${date}${time}" format="pdf">
@@ -267,7 +268,20 @@
 		</action-group>
 
 		<action-method name="invoice-set-reference">
-				<call class="com.axelor.gst.web.GstController" method="setInvoiceReference" />
+				<call class="com.axelor.gst.web.InvoiceController" method="setInvoiceReference" />
 		</action-method>
+		
+		<action-record name="default-value" model="com.axelor.gst.db.Invoice">
+ 
+        <field name="netigst" expr="eval:0" />
+        <field name="netsgst" expr="eval:0" />
+        <field name="netcsgt" expr="eval:0" />
+      
+    </action-record>
+    <action-method name="invoice-set-values">
+        <call class="com.axelor.gst.web.InvoiceController" method="setPartyInvoiceInvoiceLine"  />
+    </action-method>
+		
+		
 
 </object-views>

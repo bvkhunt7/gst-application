@@ -28,12 +28,13 @@
 		<form name="party-form" title="Party" model="com.axelor.gst.db.Party" onSave="action-set-nextnumber-reference-increment">
 				<panel colSpan="4">
 						<field name="reference" readonly="true" />
-						<field name="name" />
-						<field name="type" />
+						<field name="name" required="true" />
+						<field name="type" required="true" />
+						<field name="gstin" />
 						<field name="customer" />
 						<field name="supplier" />
-						<field name="gstin" />
-						<field name="contact">
+						
+						<field name="contact" colSpan="12">
 								<editor>
 										<field name="contact.name" />
 										<field name="contact.type" selection="contact.type.selection" />
@@ -96,7 +97,7 @@
 		</cards>
 
 		<action-method name="party-set-reference">
-				<call class="com.axelor.gst.web.GstController" method="setPartyReference" />
+				<call class="com.axelor.gst.web.PartyController" method="setPartyReference" />
 		</action-method>
 
 		<action-group name="action-set-nextnumber-reference-increment">

@@ -14,8 +14,8 @@
 
 		<form name="Contact-form" title="Contact" model="com.axelor.gst.db.Contact">
 				<panel colSpan="4">
-						<field name="name" />
-						<field name="type" />
+						<field name="name" required="true" />
+						<field name="type" required="true" />
 						<field name="primaryemail" />
 						<field name="secondaryemail" />
 						<field name="primaryphone" />

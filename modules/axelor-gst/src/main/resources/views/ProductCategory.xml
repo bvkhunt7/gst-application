@@ -11,8 +11,8 @@
 
 		<form name="productcategory-form" title="Product Category" model="com.axelor.gst.db.ProductCategory">
 				<panel colSpan="4">
-						<field name="name" />
-						<field name="code" />
+						<field name="name" required="true" />
+						<field name="code" required="true" />
 						<field name="gstrate" />
 				</panel>
 		</form>
