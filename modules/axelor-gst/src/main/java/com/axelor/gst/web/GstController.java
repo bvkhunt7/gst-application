@@ -6,7 +6,7 @@ import javax.persistence.EntityManager;
 
 import com.axelor.app.AppSettings;
 import com.axelor.gst.db.repo.SequenceRepository;
-import com.axelor.gst.service.GstService;
+import com.axelor.gst.service.SequenceService;
 import com.axelor.meta.db.repo.MetaModelRepository;
 import com.axelor.rpc.ActionRequest;
 import com.axelor.rpc.ActionResponse;
@@ -14,17 +14,10 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.persist.Transactional;
 
-@Transactional
 public class GstController {
 
 	@Inject
-	GstService gstService;
-	@Inject
-	MetaModelRepository metaModelRepository;
-	@Inject
-	SequenceRepository sequenceRepository;
-	@Inject
-	Provider<EntityManager> em;
+	SequenceService gstService;
 
 	@SuppressWarnings("unchecked")
 	public void printInvoices(ActionRequest request, ActionResponse response) {
@@ -37,7 +30,6 @@ public class GstController {
 			String stringform = " ";
 			stringform = stringform + idss;
 			request.getContext().put("_ids", stringform);
-
 			String uploadDir = AppSettings.get().get("file.upload.dir");
 			request.getContext().put("file_path", uploadDir);
 
@@ -50,7 +42,6 @@ public class GstController {
 				}
 			}
 			request.getContext().put("_ids", string);
-
 			String uploadDir = AppSettings.get().get("file.upload.dir");
 			request.getContext().put("file_path", uploadDir);
 		}

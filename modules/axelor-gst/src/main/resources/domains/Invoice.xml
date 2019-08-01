@@ -12,12 +12,12 @@
 				<string name="reference" title="Reference" />
 				<datetime name="dates" title="Datetime" />
 				<integer name="priority" title="Priority" />
-				
+
 				<many-to-one name="party" ref="Party" />
 				<many-to-one name="contact" ref="Contact" title="Party contact" />
 				<many-to-one name="invoiceaddress" ref="Address" title="Invoice address" />
 				<many-to-one name="shippingaddress" ref="Address" title="Shipping address" />
-				
+
 				<boolean name="useinvoiceaddress" title="Use invoice address as shipping" default="true" />
 				<decimal name="netamount" title="Net Amount" />
 				<decimal name="netigst" title="Net IGST" />
@@ -25,6 +25,15 @@
 				<decimal name="netsgst" title="Net SGST" />
 				<decimal name="grossamount" title="Gross Amount" />
 				<one-to-many name="invoiceitems" ref="InvoiceLine" mappedBy="invoice" />
+				<extra-code>    
+				  <![CDATA[
+		     public static final String ADDRESS_PRIMARY = "primary";
+		     public static final String ADDRESS_INVOICE = "invoice";
+		     public static final String ADDRESS_SHIPPING = "shipping";
+		     public static final String ADDRESS_DEFAULT = "default";
+		     ]]>
+  </extra-code>
+
 
 		</entity>
 

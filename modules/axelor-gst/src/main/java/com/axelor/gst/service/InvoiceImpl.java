@@ -9,27 +9,19 @@ import com.axelor.gst.db.Contact;
 import com.axelor.gst.db.Invoice;
 import com.axelor.gst.db.InvoiceLine;
 import com.axelor.gst.db.State;
-import com.axelor.gst.db.repo.CompanyRepository;
 import com.axelor.gst.db.repo.InvoiceRepository;
-import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
 public class InvoiceImpl implements Invoices {
-	@Inject
-	InvoiceRepository invoiceRepository;
-
-	@Inject
-	CompanyRepository companyRepository;
 
 	public Invoice computeInvoice(Invoice invoice) {
 		if (invoice.getInvoiceitems() != null) {
-			BigDecimal netamount = new BigDecimal(0);
-			BigDecimal igst = new BigDecimal(0);
-			BigDecimal csgt = new BigDecimal(0);
-			BigDecimal sgst = new BigDecimal(0);
-			BigDecimal grossamount = new BigDecimal(0);
-			BigDecimal zero = new BigDecimal(0);
+			BigDecimal netamount = BigDecimal.ZERO;
+			BigDecimal igst = BigDecimal.ZERO;
+			BigDecimal csgt = BigDecimal.ZERO;
+			BigDecimal sgst = BigDecimal.ZERO;
+			BigDecimal grossamount = BigDecimal.ZERO;
 
 			for (InvoiceLine item : invoice.getInvoiceitems()) {
 				netamount = netamount.add(item.getNetamount());
@@ -51,12 +43,11 @@ public class InvoiceImpl implements Invoices {
 
 		List<InvoiceLine> list = invoice.getInvoiceitems();
 		List<InvoiceLine> list1 = new ArrayList<InvoiceLine>();
-		BigDecimal netamount = new BigDecimal(0);
-		BigDecimal gstrate = new BigDecimal(0);
-		BigDecimal zero = new BigDecimal(0);
+		BigDecimal netamount = BigDecimal.ZERO;
+		BigDecimal gstrate = BigDecimal.ZERO;
+		BigDecimal zero = BigDecimal.ZERO;
 
 		if (invoice.getParty() == null || invoice.getCompany() == null) {
-
 			if (invoice.getInvoiceitems() != null) {
 				for (InvoiceLine invoiceLine : list) {
 					netamount = invoiceLine.getNetamount();
@@ -70,61 +61,54 @@ public class InvoiceImpl implements Invoices {
 				invoice.setInvoiceitems(list1);
 			}
 		} else if (invoice.getInvoiceaddress() != null && invoice.getCompany().getAddress() != null) {
-					State invoiceaddress = invoice.getInvoiceaddress().getState();
-					State companyaddress = invoice.getCompany().getAddress().getState();
-		
-					if (invoiceaddress.equals(companyaddress)) {
-						int div = 2;
-						BigDecimal d = new BigDecimal(div);
-		
-						for (InvoiceLine invoiceLine : list) {
-							netamount = invoiceLine.getNetamount();
-							gstrate = invoiceLine.getGstrate();
-							BigDecimal count = (gstrate.divide(d)).multiply(netamount);
-							BigDecimal gross = netamount.add(count.add(count));
-							invoiceLine.setCsgt(count);
-							invoiceLine.setSgst(count);
-							invoiceLine.setIgst(zero);
-							invoiceLine.setGrossamount(gross);
-							list1.add(invoiceLine);
-						}
-						invoice.setInvoiceitems(list1);
-					} else {
-						for (InvoiceLine invoiceLine : list) {
-							netamount = invoiceLine.getNetamount();
-							gstrate = invoiceLine.getGstrate();
-							BigDecimal count = gstrate.multiply(netamount);
-							BigDecimal gross = netamount.add(count);
-							invoiceLine.setIgst(count);
-							invoiceLine.setSgst(zero);
-							invoiceLine.setCsgt(zero);
-							invoiceLine.setGrossamount(gross);
-							list1.add(invoiceLine);
-						}
-						invoice.setInvoiceitems(list1);
-					}
-				}
+			State invoiceaddress = invoice.getInvoiceaddress().getState();
+			State companyaddress = invoice.getCompany().getAddress().getState();
 
+			if (invoiceaddress.equals(companyaddress)) {
+				int div = 2;
+				BigDecimal d = new BigDecimal(div);
+
+				for (InvoiceLine invoiceLine : list) {
+					netamount = invoiceLine.getNetamount();
+					gstrate = invoiceLine.getGstrate();
+					BigDecimal count = (gstrate.divide(d)).multiply(netamount);
+					BigDecimal gross = netamount.add(count.add(count));
+					invoiceLine.setCsgt(count);
+					invoiceLine.setSgst(count);
+					invoiceLine.setIgst(zero);
+					invoiceLine.setGrossamount(gross);
+					list1.add(invoiceLine);
+				}
+				invoice.setInvoiceitems(list1);
+			} else {
+				for (InvoiceLine invoiceLine : list) {
+					netamount = invoiceLine.getNetamount();
+					gstrate = invoiceLine.getGstrate();
+					BigDecimal count = gstrate.multiply(netamount);
+					BigDecimal gross = netamount.add(count);
+					invoiceLine.setIgst(count);
+					invoiceLine.setSgst(zero);
+					invoiceLine.setCsgt(zero);
+					invoiceLine.setGrossamount(gross);
+					list1.add(invoiceLine);
+				}
+				invoice.setInvoiceitems(list1);
+			}
+		}
 		return invoice;
 	}
 
 	public Invoice computeInvoicePartyAttrs(Invoice invoice) {
 		if (invoice.getParty() != null) {
 			invoice.setContact(null);
-
-			final String ADDRESS_PRIMARY = "primary";
-			final String ADDRESS_INVOICE = "invoice";
-			final String ADDRESS_SHIPPING = "shipping";
-			final String ADDRESS_DEFAULT = "default";
 			String type = "";
 			String addtype = "";
-			List<Contact> con = null;
 			List<Contact> contactList = invoice.getParty().getContact();
 			List<Address> addressList = invoice.getParty().getAddress();
 
 			for (Contact contact : contactList) {
 				type = contact.getType();
-				if (type.toLowerCase().equals(ADDRESS_PRIMARY)) {
+				if (type.toLowerCase().equals(InvoiceRepository.ADDRESS_PRIMARY)) {
 					invoice.setContact(contact);
 				} else {
 					invoice.setContact(null);
@@ -133,11 +117,11 @@ public class InvoiceImpl implements Invoices {
 			for (Address address : addressList) {
 				addtype = address.getType();
 
-				if (addtype.toLowerCase().equals(ADDRESS_INVOICE)) {
+				if (addtype.toLowerCase().equals(InvoiceRepository.ADDRESS_INVOICE)) {
 					invoice.setInvoiceaddress(address);
-				} else if (addtype.toLowerCase().equals(ADDRESS_SHIPPING)) {
+				} else if (addtype.toLowerCase().equals(InvoiceRepository.ADDRESS_SHIPPING)) {
 					invoice.setShippingaddress(address);
-				} else if (addtype.toLowerCase().equals(ADDRESS_DEFAULT)) {
+				} else if (addtype.toLowerCase().equals(InvoiceRepository.ADDRESS_DEFAULT)) {
 					invoice.setInvoiceaddress(address);
 					invoice.setShippingaddress(address);
 				}

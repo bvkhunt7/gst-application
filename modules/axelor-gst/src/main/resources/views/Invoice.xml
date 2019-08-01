@@ -38,17 +38,17 @@
 
 				<panel>
 						<field name="status" widget="NavSelect" colSpan="12" />
-						<field name="company" canNew="true" required="true" onChange="invoice-set-values"/>
+						<field name="company" canNew="true" required="true" onChange="invoice-set-values" />
 						<field name="reference" readonly="true" />
 						<field name="dates" />
-						<field name="priority"  />
+						<field name="priority" />
 						<field name="party" form-view="party-form" canNew="true" onChange="action-validate-invoice-data" required="true" />
 						<field name="contact" form-view="contact-form" canNew="true" />
 						<field name="invoiceaddress" form-view="address-form" canNew="true" required="true" />
 						<field name="shippingaddress" form-view="address-form" canNew="true" />
 						<field name="useinvoiceaddress" onChange="invoice-party-primary-contact" />
-           
-<!-- 						<field name="invoiceitems" colSpan="12" onChange="invoice-default-value" /> -->
+
+						<!-- <field name="invoiceitems" colSpan="12" onChange="invoice-default-value" /> -->
 
 						<field name="netamount" readonly="true" />
 						<field name="netigst" readonly="true" />
@@ -60,7 +60,8 @@
 
 
 				</panel>
-				<panel-related field="invoiceitems" onChange="invoice-default-value">  </panel-related>
+				<panel-related field="invoiceitems" onChange="invoice-default-value">
+				</panel-related>
 
 		</form>
 
@@ -270,18 +271,18 @@
 		<action-method name="invoice-set-reference">
 				<call class="com.axelor.gst.web.InvoiceController" method="setInvoiceReference" />
 		</action-method>
-		
+
 		<action-record name="default-value" model="com.axelor.gst.db.Invoice">
- 
-        <field name="netigst" expr="eval:0" />
-        <field name="netsgst" expr="eval:0" />
-        <field name="netcsgt" expr="eval:0" />
-      
-    </action-record>
-    <action-method name="invoice-set-values">
-        <call class="com.axelor.gst.web.InvoiceController" method="setPartyInvoiceInvoiceLine"  />
-    </action-method>
-		
-		
+
+				<field name="netigst" expr="eval:0" />
+				<field name="netsgst" expr="eval:0" />
+				<field name="netcsgt" expr="eval:0" />
+
+		</action-record>
+		<action-method name="invoice-set-values">
+				<call class="com.axelor.gst.web.InvoiceController" method="setPartyInvoiceInvoiceLine" />
+		</action-method>
+
+
 
 </object-views>

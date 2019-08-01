@@ -1,23 +1,13 @@
 package com.axelor.gst.service;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.axelor.gst.db.Address;
-import com.axelor.gst.db.Contact;
-import com.axelor.gst.db.Invoice;
-import com.axelor.gst.db.InvoiceLine;
 import com.axelor.gst.db.Sequence;
-import com.axelor.gst.db.State;
 import com.axelor.gst.db.repo.CompanyRepository;
 import com.axelor.gst.db.repo.InvoiceRepository;
-import com.axelor.meta.db.MetaModel;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class GstServiceImpl implements GstService {
+public class SequenceServiceImpl implements SequenceService {
 
 	@Inject
 	InvoiceRepository invoiceRepository;
@@ -29,8 +19,6 @@ public class GstServiceImpl implements GstService {
 		String suffix = sequence.getSuffix();
 		String prefix = sequence.getPrefix();
 		int padding = sequence.getPadding();
-		MetaModel model = sequence.getModel();
-
 		int len = padding;
 		int no = 1;
 		String str = String.format("%0" + len + "d", no);
@@ -39,5 +27,23 @@ public class GstServiceImpl implements GstService {
 		sequence.setNextnumber(string);
 
 		return sequence;
+	}
+	
+	public String generateNextnumber(Sequence sequence)
+	{
+		int padding = sequence.getPadding();
+		String prefix = sequence.getPrefix();
+		String suffix = sequence.getSuffix();
+		String nextNumber = sequence.getNextnumber();
+		int preLen = prefix.length();
+
+		String pad = nextNumber.substring(preLen);
+		String padlast = pad.substring(0, padding);
+		int paddingIncrement = Integer.parseInt(padlast);
+		int len = padding;
+		String incrementString = String.format("%0" + len + "d", ++paddingIncrement);
+		String string = prefix + incrementString + suffix;
+		
+		return string;
 	}
 }
