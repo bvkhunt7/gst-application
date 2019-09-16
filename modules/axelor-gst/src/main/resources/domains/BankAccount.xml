@@ -10,7 +10,7 @@
 				<string name="bank" title="Bank" />
 				<string name="accountno" title="Account no" />
 				<string name="ifsc" title="IFSC" />
-				<string name="type" selection="bank.type.selection" title="Type" />
+				<string name="type" selection="bank.type.selection" title="Type" default="current" />
 				<string name="address" title="Address" />
 
 		</entity>

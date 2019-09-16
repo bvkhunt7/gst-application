@@ -25,16 +25,22 @@ public class PartyController {
 	public void setPartyReference(ActionRequest request, ActionResponse response) {
 
 		Party party = request.getContext().asType(Party.class);
-		MetaModel mm = Beans.get(MetaModelRepository.class).findByName("Party");
+		MetaModel metamodel = Beans.get(MetaModelRepository.class).findByName("Party");
 
-		Long id = mm.getId();
+		Long id = metamodel.getId();
 		Sequence sequence = Beans.get(SequenceRepository.class).all().filter("self.model = ?", id).fetchOne();
-		String reference = sequence.getNextnumber();
-		if (party.getReference() == null) {
-			party.setReference(reference);
-			response.setValues(party);
+		if (sequence == null) {
+			
+			response.setError("Sequence does not specified for this model");
+			
+		} else {
+			String reference = sequence.getNextnumber();
+			if (party.getReference() == null) {
+				party.setReference(reference);
+				response.setValues(party);
+			}
+			String nextnumber = sequenceService.generateNextnumber(sequence);
+			Beans.get(SequenceRepository.class).all().filter("self.model = ?", id).update("nextnumber", nextnumber);
 		}
-		String nextnumber = sequenceService.generateNextnumber(sequence);
-		Beans.get(SequenceRepository.class).all().filter("self.model = ?", id).update("nextnumber", nextnumber);
 	}
 }

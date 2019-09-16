@@ -35,7 +35,7 @@ public class InvoiceLineImpl implements InvoiceLines {
 					BigDecimal d = new BigDecimal(div);
 					BigDecimal netamount = invoiceline.getNetamount();
 					BigDecimal gstrate = invoiceline.getGstrate();
-					BigDecimal count = (gstrate.divide(d)).multiply(netamount);
+					BigDecimal count = (gstrate.multiply(netamount)).divide(d);
 					BigDecimal gross = netamount.add(count.add(count));
 					invoiceline.setCsgt(count);
 					invoiceline.setSgst(count);

@@ -44,25 +44,26 @@
 						<field name="priority" />
 						<field name="party" form-view="party-form" canNew="true" onChange="action-validate-invoice-data" required="true" />
 						<field name="contact" form-view="contact-form" canNew="true" />
-						<field name="invoiceaddress" form-view="address-form" canNew="true" required="true" />
-						<field name="shippingaddress" form-view="address-form" canNew="true" />
+						<field name="invoiceaddress" form-view="address-form" canNew="true" required="true" domain="self.party = :party" />
+						<field name="shippingaddress" form-view="address-form" canNew="true" domain="self.party = :party" />
 						<field name="useinvoiceaddress" onChange="invoice-party-primary-contact" />
 
-						<!-- <field name="invoiceitems" colSpan="12" onChange="invoice-default-value" /> -->
+						<panel-related field="invoiceitems" onChange="invoice-default-value" colSpan="12">
+						</panel-related>
 
 						<field name="netamount" readonly="true" />
 						<field name="netigst" readonly="true" />
 						<field name="netcsgt" readonly="true" />
 						<field name="netsgst" readonly="true" />
 						<field name="grossamount" readonly="true" />
-						<button name="Statusbtn" title="Change Status" onClick="save,invoice-btn-status-validation,save" />
-
-
 
 				</panel>
-				<panel-related field="invoiceitems" onChange="invoice-default-value">
-				</panel-related>
-
+				<panel sidebar="true">
+						<button name="Statusbtn" title="Draft" onClick="save,invoice-btn-status-draft-validation,save" showIf="status == 3" />
+						<button name="Statusbtn" title="Validated" onClick="save,invoice-btn-status-validated-validation,save" showIf="status == '0'" hideIf="status == 2" />
+						<button name="Statusbtn" title="Paid" onClick="save,invoice-btn-status-paid-validation,save" hideIf="status == '0'" showIf="status == 1" />
+						<button name="Statusbtn" title="Cancelled" onClick="save,invoice-btn-status-cancelled-validation,save" hideIf="status == 3" />
+				</panel>
 		</form>
 
 		<kanban name="invoice-kanban" title="Invoice" model="com.axelor.gst.db.Invoice" columnBy="status" sequenceBy="priority" draggable="false" limit="10">
@@ -211,11 +212,6 @@
 				<series key="paid" groupBy="productname" type="bar" />
 		</chart>
 
-		<!-- <action-attrs name="action-chart-from-end-date"> -->
-		<!-- <attribute name="value" for="fromDateTime" expr="eval:__datetime__" /> -->
-		<!-- <attribute name="value" for="toDateTime" expr="eval:__datetime__" /> -->
-		<!-- </action-attrs> -->
-
 		<action-record name="default-date-time" model="com.axelor.gst.db.Invoice">
 				<field name="dates" expr="eval:__date__" />
 				<!-- <field name="company" expr="eval:__repo__(Company).all().fetchOne()" if=" __repo__(Company).all().fetch().size == 1" /> -->
@@ -240,11 +236,29 @@
 
 		<!-- <action-method name="invoice-btn-status-validation"> <call class="com.axelor.gst.web.GstController" method="computeInvoiceBtn" /> </action-method> -->
 
-		<action-attrs name="invoice-btn-status-validation">
-				<attribute for="status" name="value" expr="eval: 1" if="status == '0'" />
-				<attribute for="status" name="value" expr="eval: 2" if="status == '1'" />
-				<attribute for="status" name="value" expr="eval: 3" if="status == '2'" />
+		<action-attrs name="invoice-btn-status-draft-validation">
+				<attribute for="status" name="value" expr="eval: 0" if="status == '0'" />
+				<attribute for="status" name="value" expr="eval: 0" if="status == '1'" />
+				<attribute for="status" name="value" expr="eval: 0" if="status == '2'" />
 				<attribute for="status" name="value" expr="eval:0" if="status == '3'" />
+		</action-attrs>
+		<action-attrs name="invoice-btn-status-validated-validation">
+				<attribute for="status" name="value" expr="eval: 1" if="status == '0'" />
+				<attribute for="status" name="value" expr="eval: 1" if="status == '1'" />
+				<attribute for="status" name="value" expr="eval: 1" if="status == '2'" />
+				<attribute for="status" name="value" expr="eval:1" if="status == '3'" />
+		</action-attrs>
+		<action-attrs name="invoice-btn-status-paid-validation">
+				<attribute for="status" name="value" expr="eval: 2" if="status == '0'" />
+				<attribute for="status" name="value" expr="eval: 2" if="status == '1'" />
+				<attribute for="status" name="value" expr="eval: 2" if="status == '2'" />
+				<attribute for="status" name="value" expr="eval:2" if="status == '3'" />
+		</action-attrs>
+		<action-attrs name="invoice-btn-status-cancelled-validation">
+				<attribute for="status" name="value" expr="eval: 3" if="status == '0'" />
+				<attribute for="status" name="value" expr="eval: 3" if="status == '1'" />
+				<attribute for="status" name="value" expr="eval: 3" if="status == '2'" />
+				<attribute for="status" name="value" expr="eval:3" if="status == '3'" />
 		</action-attrs>
 
 		<action-attrs name="invoice-status-readonly">

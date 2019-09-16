@@ -25,14 +25,7 @@
 				<decimal name="netsgst" title="Net SGST" />
 				<decimal name="grossamount" title="Gross Amount" />
 				<one-to-many name="invoiceitems" ref="InvoiceLine" mappedBy="invoice" />
-				<extra-code>    
-				  <![CDATA[
-		     public static final String ADDRESS_PRIMARY = "primary";
-		     public static final String ADDRESS_INVOICE = "invoice";
-		     public static final String ADDRESS_SHIPPING = "shipping";
-		     public static final String ADDRESS_DEFAULT = "default";
-		     ]]>
-  </extra-code>
+		
 
 
 		</entity>

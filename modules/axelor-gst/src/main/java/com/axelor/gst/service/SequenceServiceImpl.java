@@ -28,9 +28,8 @@ public class SequenceServiceImpl implements SequenceService {
 
 		return sequence;
 	}
-	
-	public String generateNextnumber(Sequence sequence)
-	{
+
+	public String generateNextnumber(Sequence sequence) {
 		int padding = sequence.getPadding();
 		String prefix = sequence.getPrefix();
 		String suffix = sequence.getSuffix();
@@ -43,7 +42,7 @@ public class SequenceServiceImpl implements SequenceService {
 		int len = padding;
 		String incrementString = String.format("%0" + len + "d", ++paddingIncrement);
 		String string = prefix + incrementString + suffix;
-		
+
 		return string;
 	}
 }

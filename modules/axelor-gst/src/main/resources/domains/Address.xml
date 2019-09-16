@@ -5,7 +5,7 @@
 
 		<module name="address" package="com.axelor.gst.db" />
 
-		<entity name="Address" cachable="true">
+		<entity name="Address">
 				<many-to-one name="city" ref="City" />
 				<many-to-one name="state" ref="State" />
 				<many-to-one name="country" ref="Country" />
@@ -27,15 +27,14 @@
         ]]></string>
 				<string name="line2" title="Line2" />
 				<string name="pincode" title="PinCode" />
-				<extra-code>
-          <![CDATA[ 
-     final String ADDRESS_PRIMARY = "primary";
-    final String ADDRESS_INVOICE = "invoice";
-    final String ADDRESS_SHIPPING = "shipping";
-    final String ADDRESS_DEFAULT = "default";
-          
-           ]]>
-        </extra-code>
+				    <extra-code>    
+          <![CDATA[
+         public static final String ADDRESS_PRIMARY = "primary";
+         public static final String ADDRESS_INVOICE = "invoice";
+         public static final String ADDRESS_SHIPPING = "shipping";
+         public static final String ADDRESS_DEFAULT = "default";
+         ]]>
+  </extra-code>
 		</entity>
 
 </domain-models>

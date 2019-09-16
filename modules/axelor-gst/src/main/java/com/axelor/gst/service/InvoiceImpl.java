@@ -9,6 +9,7 @@ import com.axelor.gst.db.Contact;
 import com.axelor.gst.db.Invoice;
 import com.axelor.gst.db.InvoiceLine;
 import com.axelor.gst.db.State;
+import com.axelor.gst.db.repo.AddressRepository;
 import com.axelor.gst.db.repo.InvoiceRepository;
 import com.google.inject.Singleton;
 
@@ -71,7 +72,7 @@ public class InvoiceImpl implements Invoices {
 				for (InvoiceLine invoiceLine : list) {
 					netamount = invoiceLine.getNetamount();
 					gstrate = invoiceLine.getGstrate();
-					BigDecimal count = (gstrate.divide(d)).multiply(netamount);
+					BigDecimal count = (gstrate.multiply(netamount)).divide(d);
 					BigDecimal gross = netamount.add(count.add(count));
 					invoiceLine.setCsgt(count);
 					invoiceLine.setSgst(count);
@@ -108,7 +109,7 @@ public class InvoiceImpl implements Invoices {
 
 			for (Contact contact : contactList) {
 				type = contact.getType();
-				if (type.toLowerCase().equals(InvoiceRepository.ADDRESS_PRIMARY)) {
+				if (type.toLowerCase().equals(AddressRepository.ADDRESS_PRIMARY)) {
 					invoice.setContact(contact);
 				} else {
 					invoice.setContact(null);
@@ -117,11 +118,11 @@ public class InvoiceImpl implements Invoices {
 			for (Address address : addressList) {
 				addtype = address.getType();
 
-				if (addtype.toLowerCase().equals(InvoiceRepository.ADDRESS_INVOICE)) {
+				if (addtype.toLowerCase().equals(AddressRepository.ADDRESS_INVOICE)) {
 					invoice.setInvoiceaddress(address);
-				} else if (addtype.toLowerCase().equals(InvoiceRepository.ADDRESS_SHIPPING)) {
+				} else if (addtype.toLowerCase().equals(AddressRepository.ADDRESS_SHIPPING)) {
 					invoice.setShippingaddress(address);
-				} else if (addtype.toLowerCase().equals(InvoiceRepository.ADDRESS_DEFAULT)) {
+				} else if (addtype.toLowerCase().equals(AddressRepository.ADDRESS_DEFAULT)) {
 					invoice.setInvoiceaddress(address);
 					invoice.setShippingaddress(address);
 				}

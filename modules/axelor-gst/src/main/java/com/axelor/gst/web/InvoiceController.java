@@ -27,6 +27,7 @@ public class InvoiceController {
 	public void setInvoice(ActionRequest requests, ActionResponse responses) {
 		Invoice invoice = requests.getContext().asType(Invoice.class);
 		invoiceService.computeInvoice(invoice);
+		invoiceService.computeInvoiceLineAttrs(invoice);
 		responses.setValues(invoice);
 	}
 

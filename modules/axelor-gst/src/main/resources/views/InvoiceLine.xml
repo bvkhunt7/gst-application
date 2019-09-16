@@ -17,7 +17,7 @@
 				<field name="grossamount" />
 		</grid>
 
-		<form name="invoiceline-form" title="Invoice Line" model="com.axelor.gst.db.InvoiceLine" >
+		<form name="invoiceline-form" title="Invoice Line" model="com.axelor.gst.db.InvoiceLine"  >
 				<panel colSpan="4">
 						<field name="product" form-view="prduct-form" canNew="true" onChange="default-product-gst-rate,action-validate-invoiceLine" />
 						<field name="hsbn" />
